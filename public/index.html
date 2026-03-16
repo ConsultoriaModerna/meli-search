@@ -30,742 +30,464 @@ body { font-family: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI'
 .main { padding:20px; overflow-y:auto; }
 
 .section { margin-bottom:16px; }
-.section-title { font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:var(--yellow); margin-bottom:8px; font-weight:700; display:flex; align-items:center; gap:6px; }
-.row { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
-.row.full { grid-template-columns:1fr; }
+.section-title { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
 
-input,select { background:var(--surface); border:1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:6px; font-size:12px; width:100%; }
-input:focus,select:focus { outline:none; border-color:var(--blue); }
-input::placeholder { color:var(--muted); }
-select { cursor:pointer; }
+.filter-group { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.filter-label { font-size:12px; font-weight:600; color:var(--text); }
+.input, .select { width:100%; padding:8px 10px; background:var(--surface); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:12px; }
+.input:focus, .select:focus { outline:none; border-color:var(--yellow); box-shadow:0 0 0 2px rgba(255,230,0,0.1); }
 
-.btn { padding:10px; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:13px; width:100%; transition:all .15s; }
-.btn-primary { background:var(--blue); color:#fff; }
-.btn-primary:hover { background:#2868c8; }
-.btn-primary:disabled { opacity:.4; }
-.btn-outline { background:transparent; color:var(--yellow); border:1px solid var(--yellow); margin-top:6px; font-size:12px; padding:8px; }
-.btn-outline:hover { background:rgba(255,230,0,.08); }
+.btn { padding:8px 14px; border-radius:6px; border:none; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-primary { background:var(--yellow); color:#000; }
+.btn-primary:hover { background:#f0c800; transform:translateY(-1px); }
+.btn-secondary { background:var(--surface); color:var(--text); border:1px solid var(--border); }
+.btn-secondary:hover { background:var(--border); }
+.btn-small { padding:4px 8px; font-size:11px; }
 
-.profile-box { background:var(--surface); border-radius:8px; padding:12px; margin-bottom:16px; border-left:3px solid var(--yellow); }
-.profile-box h4 { font-size:12px; color:var(--yellow); margin-bottom:6px; }
-.profile-box p { font-size:11px; color:var(--muted); line-height:1.5; }
-.tag { display:inline-block; background:rgba(52,131,250,.15); color:var(--blue); padding:2px 7px; border-radius:8px; font-size:10px; margin:2px 2px 0 0; }
+.results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+.result-card { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; cursor:pointer; transition:all 0.3s; }
+.result-card:hover { border-color:var(--yellow); box-shadow:0 8px 24px rgba(255,230,0,0.15); transform:translateY(-4px); }
 
-.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:16px; }
-.stat { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px; }
-.stat .label { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
-.stat .val { font-size:22px; font-weight:800; margin-top:4px; }
-.stat .val.y { color:var(--yellow); } .stat .val.g { color:var(--green); } .stat .val.r { color:var(--red); } .stat .val.b { color:var(--blue); }
-.stat .sub { font-size:10px; color:var(--muted); margin-top:2px; }
+.card-image { width:100%; height:200px; background:var(--surface); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:48px; }
+.card-content { padding:12px; }
+.card-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.card-price { font-size:16px; font-weight:800; color:var(--yellow); margin-bottom:8px; }
+.card-meta { display:flex; gap:12px; font-size:11px; color:var(--muted); }
+.card-meta-item { display:flex; align-items:center; gap:4px; }
 
-.toolbar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
-.tbtn { padding:7px 14px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:12px; display:flex; align-items:center; gap:5px; }
-.tbtn:hover { border-color:var(--blue); color:var(--blue); }
-.tbtn.active { background:var(--blue); border-color:var(--blue); color:#fff; }
-.spacer { flex:1; }
-.result-count { font-size:12px; color:var(--muted); }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:1000; }
+.modal.active { display:flex; }
+.modal-content { background:var(--card); border:1px solid var(--border); border-radius:12px; max-width:600px; max-height:80vh; overflow-y:auto; }
+.modal-header { background:linear-gradient(135deg,var(--yellow),#f0c800); padding:16px; display:flex; align-items:center; justify-content:space-between; border-radius:12px 12px 0 0; }
+.modal-close { background:none; border:none; font-size:24px; color:#1a1a1a; cursor:pointer; }
+.modal-body { padding:20px; }
+.modal-img { width:100%; height:300px; background:var(--surface); border-radius:8px; margin-bottom:16px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:64px; }
 
-/* Cards */
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; }
-.card { background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:all .2s; position:relative; }
-.card:hover { border-color:var(--blue); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.4); }
-.card-img { width:100%; height:180px; object-fit:cover; background:var(--surface); display:block; }
-.card-badges { position:absolute; top:8px; left:8px; display:flex; gap:4px; flex-wrap:wrap; }
-.card-badge { padding:3px 8px; border-radius:4px; font-size:10px; font-weight:700; backdrop-filter:blur(8px); }
-.cb-score { background:rgba(0,200,83,.9); color:#fff; }
-.cb-cheap { background:rgba(52,131,250,.9); color:#fff; }
-.cb-expensive { background:rgba(255,61,90,.9); color:#fff; }
-.cb-new { background:rgba(156,39,176,.9); color:#fff; }
-.card-fav { position:absolute; top:8px; right:8px; background:rgba(0,0,0,.5); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:14px; backdrop-filter:blur(4px); }
-.card-fav.active { background:var(--red); }
-.card-body { padding:14px; }
-.card-title { font-size:14px; font-weight:600; line-height:1.3; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.card-loc { font-size:11px; color:var(--muted); margin-bottom:10px; }
-.card-loc i { color:var(--blue); margin-right:3px; }
-.card-prices { margin-bottom:10px; }
-.price-main { font-size:18px; font-weight:800; }
-.price-m2 { font-size:11px; color:var(--muted); margin-top:2px; }
-.price-offer { font-size:13px; color:var(--green); font-weight:700; margin-top:4px; }
-.card-chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-.chip { background:var(--surface); padding:3px 8px; border-radius:10px; font-size:11px; color:var(--muted); }
-.chip i { margin-right:3px; font-size:9px; }
-.card-meta { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:12px; }
-.meta-item { font-size:10px; color:var(--muted); }
-.meta-item span { color:var(--text); font-weight:600; }
-.card-score { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
-.score-bar { flex:1; height:6px; background:var(--surface); border-radius:3px; overflow:hidden; }
-.score-fill { height:100%; border-radius:3px; transition:width .3s; }
-.score-label { font-size:11px; font-weight:700; min-width:36px; text-align:right; }
-.card-actions { display:flex; gap:6px; }
-.card-actions a,.card-actions button { flex:1; padding:8px; border-radius:6px; text-align:center; font-size:11px; font-weight:700; text-decoration:none; cursor:pointer; border:none; }
-.a-view { background:var(--blue); color:#fff; }
-.a-contact { background:var(--surface); color:var(--text); border:1px solid var(--border); }
-
-/* Table */
-table.tbl { width:100%; border-collapse:collapse; font-size:12px; }
-.tbl th { background:var(--surface); padding:10px 12px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); position:sticky; top:0; z-index:1; cursor:pointer; }
-.tbl th:hover { color:var(--yellow); }
-.tbl td { padding:10px 12px; border-bottom:1px solid var(--border); }
-.tbl tr:hover td { background:rgba(52,131,250,.04); }
-.tbl .prc { font-weight:700; } .tbl .ofr { color:var(--green); font-weight:600; }
-
-.pagination { display:flex; justify-content:center; gap:6px; margin-top:20px; }
-.pagination button { padding:8px 14px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:12px; }
-.pagination button:hover { border-color:var(--blue); }
-.pagination button.active { background:var(--blue); border-color:var(--blue); }
-.pagination button:disabled { opacity:.3; cursor:default; }
-
-.loading { display:flex; flex-direction:column; align-items:center; padding:60px; color:var(--muted); }
-.spinner { width:36px; height:36px; border:3px solid var(--surface); border-top-color:var(--blue); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:12px; }
+.spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--yellow); border-radius:50%; animation:spin 0.6s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
-.empty { text-align:center; padding:80px 40px; color:var(--muted); }
-.empty i { font-size:48px; margin-bottom:14px; display:block; color:var(--border); }
 
-.slider-wrap { margin:6px 0; }
-.slider-wrap input[type=range] { width:100%; accent-color:var(--green); }
-.slider-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
-.slider-val { text-align:center; color:var(--green); font-weight:800; font-size:16px; }
+.error-box { background:rgba(255,61,90,0.1); border:1px solid var(--red); color:var(--red); padding:12px 14px; border-radius:6px; font-size:12px; margin-bottom:12px; }
+.success-box { background:rgba(0,200,83,0.1); border:1px solid var(--green); color:var(--green); padding:12px 14px; border-radius:6px; font-size:12px; margin-bottom:12px; }
 
-.error-box { background:rgba(255,61,90,.1); border:1px solid var(--red); padding:12px 16px; border-radius:8px; margin-bottom:14px; font-size:13px; color:var(--red); }
+.pagination { display:flex; gap:8px; align-items:center; justify-content:center; margin-top:20px; }
+.page-btn { padding:6px 10px; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:4px; cursor:pointer; font-size:12px; }
+.page-btn.active { background:var(--yellow); color:#000; }
+.page-btn:hover { border-color:var(--yellow); }
 
-@media(max-width:900px) { .layout { grid-template-columns:1fr; } }
+@media (max-width:768px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { border-right:none; border-bottom:1px solid var(--border); max-height:200px; }
+  .results-grid { grid-template-columns:1fr; }
+}
+
+.stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:16px; }
+.stat-box { background:var(--surface); padding:12px; border-radius:6px; border:1px solid var(--border); }
+.stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; }
+.stat-value { font-size:18px; font-weight:700; color:var(--yellow); margin-top:4px; }
+
+.trend { display:inline-flex; align-items:center; gap:4px; font-size:11px; }
+.trend.up { color:var(--green); }
+.trend.down { color:var(--red); }
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useCallback, useMemo } = React;
 
-// ─── Config ─────────────────────────────────────────────
-const API = ''; // Vercel serverless proxy
+<div class="header">
+  <div class="header-left">
+    <i class="fas fa-home" style="font-size:24px;color:var(--yellow)"></i>
+    <div>
+      <h1>MELI Search</h1>
+      <span class="sub">Buscador Avanzado de Inmuebles</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge">v2.0 Vercel</span>
+  </div>
+</div>
 
-const CATEGORIES = {
-  MLA1459:'Todos los Inmuebles', MLA1466:'Casas', MLA1472:'Departamentos',
-  MLA1493:'Terrenos y Lotes', MLA401685:'Locales Comerciales',
-  MLA1473:'Oficinas', MLA50541:'Cocheras', MLA1475:'Depositos/Galpones',
-  MLA401701:'PH',
-};
-
-const OPERATIONS = { '242075':'Venta', '242073':'Alquiler', '242074':'Alquiler Temporario' };
-
-const ZONES = {
-  '':'Toda Buenos Aires',
-  'TUxBUENBUGw3M2E1':'Capital Federal (CABA)',
-  'TUxBUENBUGwyNzY1':'GBA Norte',
-  'TUxBUENBUGwyNzY2':'GBA Oeste',
-  'TUxBUENBUGwyNzY3':'GBA Sur',
-  'TUxBUENBUGwyODNi':'La Plata',
-  'TUxBUENBUGwyMDM1':'Costa Atlantica',
-};
-
-const SORTS = {
-  price_asc:'Menor precio', price_desc:'Mayor precio', relevance:'Relevancia',
-};
-
-// ─── Datos de referencia por zona (precio/m2 promedio USD) ──
-const ZONE_BENCHMARKS = {
-  'Capital Federal': { avgPriceM2: 2200, rentYield: 4.5 },
-  'GBA Norte': { avgPriceM2: 1600, rentYield: 4.8 },
-  'GBA Oeste': { avgPriceM2: 900, rentYield: 5.5 },
-  'GBA Sur': { avgPriceM2: 800, rentYield: 5.8 },
-  'La Plata': { avgPriceM2: 950, rentYield: 5.2 },
-  'default': { avgPriceM2: 1400, rentYield: 4.8 },
-};
-
-// ─── Helpers ────────────────────────────────────────────
-function fmt(n, cur='USD') {
-  if (!n) return 'Consultar';
-  const s = cur === 'USD' ? 'U$D' : '$';
-  return `${s} ${n.toLocaleString('es-AR')}`;
-}
-function attr(a, id) {
-  const r = a?.find(x => x.id === id);
-  return r?.value_name || null;
-}
-function attrNum(a, id) {
-  const v = attr(a, id);
-  return v ? parseFloat(v.replace(/[^\d.,]/g,'').replace(',','.')) : null;
-}
-
-function computeScore(item, profile) {
-  let score = 50;
-  const price = item.price || 0;
-  const cur = item.currency_id;
-  const area = attrNum(item.attributes, 'TOTAL_AREA');
-  const rooms = attrNum(item.attributes, 'ROOMS');
-  const beds = attrNum(item.attributes, 'BEDROOMS');
-  const baths = attrNum(item.attributes, 'FULL_BATHROOMS');
-  const parking = attrNum(item.attributes, 'PARKING_LOTS');
-
-  // Price fit (closer to budget center = better)
-  if (cur === 'USD' && price > 0 && price <= profile.maxPrice) {
-    const ratio = price / profile.maxPrice;
-    if (ratio >= 0.5 && ratio <= 0.85) score += 15;
-    else if (ratio < 0.5) score += 5;
-    else score += 8;
-  }
-
-  // Size bonus
-  if (area) {
-    if (area >= 80 && area <= 200) score += 10;
-    else if (area > 200) score += 5;
-  }
-
-  // Rooms
-  if (rooms && rooms >= 3) score += 5;
-  if (beds && beds >= 2) score += 5;
-  if (baths && baths >= 2) score += 3;
-  if (parking && parking >= 1) score += 4;
-
-  // Price per m2 value
-  if (area && price && cur === 'USD') {
-    const pm2 = price / area;
-    const zone = item.address?.state_name || 'default';
-    const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
-    if (pm2 < bench.avgPriceM2 * 0.8) score += 12; // Below market
-    else if (pm2 < bench.avgPriceM2) score += 6;
-  }
-
-  // Has photos
-  if (item.thumbnail) score += 3;
-
-  return Math.min(100, Math.max(0, score));
-}
-
-function scoreColor(s) {
-  if (s >= 75) return 'var(--green)';
-  if (s >= 55) return 'var(--yellow)';
-  if (s >= 40) return 'var(--orange)';
-  return 'var(--red)';
-}
-
-function scoreBadge(s) {
-  if (s >= 75) return { label: 'Ideal', cls: 'cb-score' };
-  if (s >= 60) return { label: 'Bueno', cls: 'cb-cheap' };
-  return null;
-}
-
-function priceVsMarket(item) {
-  const area = attrNum(item.attributes, 'TOTAL_AREA');
-  const price = item.price;
-  const cur = item.currency_id;
-  if (!area || !price || cur !== 'USD') return null;
-  const pm2 = price / area;
-  const zone = item.address?.state_name || 'default';
-  const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
-  const diff = ((pm2 - bench.avgPriceM2) / bench.avgPriceM2 * 100).toFixed(0);
-  return { pm2: Math.round(pm2), diff: Number(diff), bench: bench.avgPriceM2 };
-}
-
-function estRentalYield(item) {
-  const price = item.price;
-  const cur = item.currency_id;
-  if (!price || cur !== 'USD') return null;
-  const zone = item.address?.state_name || 'default';
-  const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
-  const monthlyRent = Math.round(price * bench.rentYield / 100 / 12);
-  return { monthly: monthlyRent, annual: bench.rentYield };
-}
-
-// ─── App ────────────────────────────────────────────────
-function App() {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [paging, setPaging] = useState({ total:0, offset:0, limit:50 });
-  const [view, setView] = useState('grid');
-  const [discount, setDiscount] = useState(20);
-  const [favs, setFavs] = useState(new Set());
-  const [sortCol, setSortCol] = useState(null);
-  const [sortDir, setSortDir] = useState('asc');
-  const [showFavsOnly, setShowFavsOnly] = useState(false);
-  const [apiFilters, setApiFilters] = useState([]);
-
-  const profile = { name:'Nico', loc:'Bacacay 1757, CABA', maxPrice:150000, op:'Compra', type:'Casa' };
-
-  const [f, setF] = useState({
-    category:'MLA1466', operation:'242075', zone:'TUxBUENBUGw3M2E1',
-    priceMin:'', priceMax:'150000', currency:'USD',
-    roomsMin:'', roomsMax:'', bedsMin:'', bedsMax:'',
-    bathsMin:'', areaMin:'', areaMax:'', parkingMin:'',
-    sort:'price_asc', q:'',
-  });
-
-  const up = (k,v) => setF(p => ({...p,[k]:v}));
-
-  const buildQueryParams = (offset=0) => {
-    const p = new URLSearchParams();
-    p.set('category', f.category);
-    p.set('limit', '50');
-    p.set('offset', String(offset));
-    p.set('sort', f.sort);
-    if (f.q) p.set('q', f.q);
-    if (f.zone) p.set('state', f.zone);
-    if (f.operation) p.set('OPERATION', f.operation);
-    if (f.priceMin || f.priceMax) {
-      p.set('price', `${f.priceMin||'0'}-${f.priceMax||'*'}`);
-      p.set('CURRENCY', f.currency);
-    }
-    if (f.roomsMin || f.roomsMax) p.set('ROOMS', `${f.roomsMin||'*'}-${f.roomsMax||'*'}`);
-    if (f.bedsMin || f.bedsMax) p.set('BEDROOMS', `${f.bedsMin||'*'}-${f.bedsMax||'*'}`);
-    if (f.bathsMin) p.set('FULL_BATHROOMS', `${f.bathsMin}-*`);
-    if (f.areaMin || f.areaMax) p.set('TOTAL_AREA', `${f.areaMin||'*'}-${f.areaMax||'*'}`);
-    if (f.parkingMin) p.set('PARKING_LOTS', `${f.parkingMin}-*`);
-    return p.toString();
-  };
-
-  // Build scrape URL params
-  const buildScrapeParams = (offset=0) => {
-    const p = new URLSearchParams();
-    p.set('category', f.category);
-    p.set('operation', f.operation);
-    if (f.zone) p.set('zone', f.zone);
-    if (f.priceMin) p.set('priceMin', f.priceMin);
-    if (f.priceMax) p.set('priceMax', f.priceMax);
-    if (f.currency) p.set('currency', f.currency);
-    if (f.roomsMin) p.set('rooms', f.roomsMin);
-    if (f.bedsMin) p.set('beds', f.bedsMin);
-    if (f.bathsMin) p.set('baths', f.bathsMin);
-    if (f.areaMin) p.set('area_min', f.areaMin);
-    if (f.areaMax) p.set('area_max', f.areaMax);
-    if (f.parkingMin) p.set('parking', f.parkingMin);
-    if (f.sort) p.set('sort', f.sort);
-    if (f.q) p.set('q', f.q);
-    if (offset > 0) p.set('offset', String(offset));
-    return p.toString();
-  };
-
-  // Smart fetch: try ML API directly, then API proxy, then web scraper
-  const smartFetch = async (apiQs, offset) => {
-    // 1. Try direct ML API from browser (works with VPN/residential IP)
-    const directUrl = `https://api.mercadolibre.com/sites/MLA/search?${apiQs}`;
-    try {
-      console.log('1. Trying direct ML API:', directUrl);
-      const res = await fetch(directUrl, { headers: { 'Accept': 'application/json' } });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.results && data.results.length > 0) { console.log('Direct ML API OK -', data.results.length, 'results'); return data; }
-      }
-      console.log('Direct ML API status:', res.status);
-    } catch(e) { console.log('Direct ML API failed:', e.message); }
-
-    // 2. Try Vercel API proxy
-    try {
-      console.log('2. Trying API proxy');
-      const res = await fetch(`/api/search?${apiQs}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.results && data.results.length > 0) { console.log('API proxy OK'); return data; }
-      }
-    } catch(e) { console.log('API proxy failed:', e.message); }
-
-    // 3. Try web scraper (fetches ML HTML pages and parses JSON-LD)
-    const scrapeQs = buildScrapeParams(offset);
-    try {
-      console.log('3. Trying web scraper:', `/api/scrape?${scrapeQs}`);
-      const res = await fetch(`/api/scrape?${scrapeQs}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.results && data.results.length > 0) { console.log('Scraper OK -', data.results.length, 'results'); return data; }
-      }
-      const errBody = await res.text();
-      console.log('Scraper failed:', res.status, errBody.substring(0, 200));
-    } catch(e) { console.log('Scraper failed:', e.message); }
-
-    throw new Error('No se pudo conectar a Mercado Libre por ninguna via. Proba activar una VPN o abri la app en tu navegador personal.');
-  };
-
-  const search = async (offset=0) => {
-    setLoading(true); setError(null);
-    try {
-      const qs = buildQueryParams(offset);
-      const data = await smartFetch(qs, offset);
-      setResults(data.results || []);
-      setPaging(data.paging || { total:0, offset:0, limit:50 });
-      if (data.available_filters) setApiFilters(data.available_filters);
-    } catch(e) { setError(e.message); setResults([]); }
-    setLoading(false);
-  };
-
-  const runDiag = async () => {
-    const diag = {};
-    try {
-      const r1 = await fetch('https://api.mercadolibre.com/sites/MLA/search?q=casa&limit=1');
-      diag.direct_ml = { status: r1.status, ok: r1.ok };
-    } catch(e) { diag.direct_ml = { error: e.message }; }
-    try {
-      const r2 = await fetch('/api/health');
-      diag.proxy = await r2.json();
-    } catch(e) { diag.proxy = { error: e.message }; }
-    alert(JSON.stringify(diag, null, 2));
-  };
-
-  const toggleFav = id => setFavs(p => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
-
-  // Enriched results with computed datapoints
-  const enriched = useMemo(() => {
-    let items = results.map(r => {
-      const score = computeScore(r, profile);
-      const mkt = priceVsMarket(r);
-      const rent = estRentalYield(r);
-      const area = attrNum(r.attributes, 'TOTAL_AREA');
-      const pm2 = (area && r.price && r.currency_id === 'USD') ? Math.round(r.price / area) : null;
-      return { ...r, _score: score, _mkt: mkt, _rent: rent, _pm2: pm2, _area: area };
-    });
-
-    if (showFavsOnly) items = items.filter(r => favs.has(r.id));
-
-    if (sortCol) {
-      items.sort((a,b) => {
-        let va, vb;
-        switch(sortCol) {
-          case 'score': va=a._score; vb=b._score; break;
-          case 'price': va=a.price||0; vb=b.price||0; break;
-          case 'pm2': va=a._pm2||99999; vb=b._pm2||99999; break;
-          case 'area': va=a._area||0; vb=b._area||0; break;
-          default: va=0; vb=0;
-        }
-        return sortDir === 'asc' ? va-vb : vb-va;
-      });
-    }
-    return items;
-  }, [results, favs, showFavsOnly, sortCol, sortDir]);
-
-  const toggleSort = (col) => {
-    if (sortCol === col) setSortDir(d => d==='asc'?'desc':'asc');
-    else { setSortCol(col); setSortDir('desc'); }
-  };
-
-  // Stats
-  const usdItems = enriched.filter(r => r.currency_id === 'USD' && r.price);
-  const avgPrice = usdItems.length ? Math.round(usdItems.reduce((s,r)=>s+r.price,0)/usdItems.length) : 0;
-  const avgPm2 = usdItems.filter(r=>r._pm2).length ? Math.round(usdItems.filter(r=>r._pm2).reduce((s,r)=>s+r._pm2,0)/usdItems.filter(r=>r._pm2).length) : 0;
-  const avgScore = enriched.length ? Math.round(enriched.reduce((s,r)=>s+r._score,0)/enriched.length) : 0;
-  const belowMarket = enriched.filter(r => r._mkt && r._mkt.diff < 0).length;
-
-  const exportCSV = (items) => {
-    const rows = [['Titulo','Precio','Moneda','Oferta_'+discount+'%','USD/m2','vs_Mercado','Score','Renta_Est_Mensual','Ambientes','Dormitorios','Banos','m2','Cochera','Ubicacion','Link']];
-    items.forEach(r => {
-      const offer = r.price ? Math.round(r.price*(1-discount/100)) : '';
-      rows.push([
-        `"${(r.title||'').replace(/"/g,'""')}"`, r.price||'', r.currency_id||'', offer,
-        r._pm2||'', r._mkt ? r._mkt.diff+'%' : '', r._score,
-        r._rent ? r._rent.monthly : '',
-        attr(r.attributes,'ROOMS')||'', attr(r.attributes,'BEDROOMS')||'',
-        attr(r.attributes,'FULL_BATHROOMS')||'', attr(r.attributes,'TOTAL_AREA')||'',
-        attr(r.attributes,'PARKING_LOTS')||'',
-        `"${r.address?.city_name||''}, ${r.address?.state_name||''}"`, r.permalink||''
-      ]);
-    });
-    const blob = new Blob([rows.map(r=>r.join(',')).join('\n')], {type:'text/csv'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `meli_inmuebles_${new Date().toISOString().slice(0,10)}.csv`; a.click();
-  };
-
-  const totalPages = Math.ceil(paging.total / paging.limit);
-  const curPage = Math.floor(paging.offset / paging.limit) + 1;
-
-  return (
-  <div>
-    <div className="header">
-      <div className="header-left">
-        <h1><i className="fas fa-building"></i> MELI Search</h1>
-        <span className="sub">API directa de Mercado Libre &middot; Filtros sin limites</span>
-      </div>
-      <div className="header-right">
-        <span className="badge"><i className="fas fa-user"></i> {profile.name}</span>
-        <span className="badge"><i className="fas fa-map-pin"></i> CABA</span>
-        <span className="badge"><i className="fas fa-dollar-sign"></i> {fmt(profile.maxPrice)}</span>
+<div class="layout">
+  <div class="sidebar">
+    <div class="section">
+      <div class="section-title">Búsqueda</div>
+      <div class="filter-group">
+        <input type="text" id="searchInput" class="input" placeholder="Buscar por ubicación...">
       </div>
     </div>
 
-    <div className="layout">
-      {/* ─── SIDEBAR ─── */}
-      <div className="sidebar">
-        <div className="profile-box">
-          <h4><i className="fas fa-crosshairs"></i> Perfil de busqueda</h4>
-          <p>
-            <i className="fas fa-home"></i> {profile.type} en {profile.op}<br/>
-            <i className="fas fa-map-marker-alt"></i> {profile.loc}<br/>
-            <i className="fas fa-wallet"></i> Hasta {fmt(profile.maxPrice)}<br/>
-            <span style={{marginTop:4,display:'block'}}>
-              <span className="tag">Score inteligente</span>
-              <span className="tag">USD/m2</span>
-              <span className="tag">vs Mercado</span>
-              <span className="tag">Renta est.</span>
-            </span>
-          </p>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-search"></i> Busqueda libre</div>
-          <div className="row full"><input placeholder="pileta, jardin, luminoso, reciclado..." value={f.q} onChange={e=>up('q',e.target.value)} onKeyDown={e=>e.key==='Enter'&&search(0)} /></div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-building"></i> Tipo / Operacion</div>
-          <div className="row full">
-            <select value={f.category} onChange={e=>up('category',e.target.value)}>
-              {Object.entries(CATEGORIES).map(([k,v])=><option key={k} value={k}>{v}</option>)}
-            </select>
-          </div>
-          <div className="row full">
-            <select value={f.operation} onChange={e=>up('operation',e.target.value)}>
-              {Object.entries(OPERATIONS).map(([k,v])=><option key={k} value={k}>{v}</option>)}
-            </select>
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-map-marker-alt"></i> Ubicacion</div>
-          <div className="row full">
-            <select value={f.zone} onChange={e=>up('zone',e.target.value)}>
-              {Object.entries(ZONES).map(([k,v])=><option key={k} value={k}>{v}</option>)}
-            </select>
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-dollar-sign"></i> Precio</div>
-          <div className="row full">
-            <select value={f.currency} onChange={e=>up('currency',e.target.value)}>
-              <option value="USD">Dolares (USD)</option>
-              <option value="ARS">Pesos (ARS)</option>
-            </select>
-          </div>
-          <div className="row">
-            <input type="number" placeholder="Minimo" value={f.priceMin} onChange={e=>up('priceMin',e.target.value)} />
-            <input type="number" placeholder="Maximo" value={f.priceMax} onChange={e=>up('priceMax',e.target.value)} />
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-door-open"></i> Ambientes / Dormitorios</div>
-          <div className="row">
-            <input type="number" placeholder="Amb min" value={f.roomsMin} onChange={e=>up('roomsMin',e.target.value)} />
-            <input type="number" placeholder="Amb max" value={f.roomsMax} onChange={e=>up('roomsMax',e.target.value)} />
-          </div>
-          <div className="row">
-            <input type="number" placeholder="Dorm min" value={f.bedsMin} onChange={e=>up('bedsMin',e.target.value)} />
-            <input type="number" placeholder="Dorm max" value={f.bedsMax} onChange={e=>up('bedsMax',e.target.value)} />
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-bath"></i> Banos / Cochera / m2</div>
-          <div className="row">
-            <input type="number" placeholder="Banos min" value={f.bathsMin} onChange={e=>up('bathsMin',e.target.value)} />
-            <input type="number" placeholder="Cochera min" value={f.parkingMin} onChange={e=>up('parkingMin',e.target.value)} />
-          </div>
-          <div className="row">
-            <input type="number" placeholder="m2 min" value={f.areaMin} onChange={e=>up('areaMin',e.target.value)} />
-            <input type="number" placeholder="m2 max" value={f.areaMax} onChange={e=>up('areaMax',e.target.value)} />
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-sort"></i> Ordenar</div>
-          <div className="row full">
-            <select value={f.sort} onChange={e=>up('sort',e.target.value)}>
-              {Object.entries(SORTS).map(([k,v])=><option key={k} value={k}>{v}</option>)}
-            </select>
-          </div>
-        </div>
-
-        <div className="section">
-          <div className="section-title"><i className="fas fa-tags"></i> Descuento para oferta</div>
-          <div className="slider-val">-{discount}%</div>
-          <div className="slider-wrap">
-            <input type="range" min="5" max="40" value={discount} onChange={e=>setDiscount(+e.target.value)} />
-            <div className="slider-labels"><span>5%</span><span>40%</span></div>
-          </div>
-        </div>
-
-        <button className="btn btn-primary" onClick={()=>search(0)} disabled={loading}>
-          {loading ? <><i className="fas fa-spinner fa-spin"></i> Buscando...</> : <><i className="fas fa-search"></i> Buscar</>}
-        </button>
-        <button className="btn btn-outline" onClick={()=>setF({
-          category:'MLA1466',operation:'242075',zone:'TUxBUENBUGw3M2E1',
-          priceMin:'',priceMax:'150000',currency:'USD',roomsMin:'',roomsMax:'',
-          bedsMin:'',bedsMax:'',bathsMin:'',areaMin:'',areaMax:'',parkingMin:'',
-          sort:'price_asc',q:'',
-        })}><i className="fas fa-undo"></i> Reset</button>
+    <div class="section">
+      <div class="section-title">Filtros</div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Tipo de Propiedad</label>
+        <select id="propertyType" class="select">
+          <option value="">Todas</option>
+          <option value="departamento">Departamento</option>
+          <option value="casa">Casa</option>
+          <option value="terreno">Terreno</option>
+          <option value="oficina">Oficina</option>
+        </select>
       </div>
 
-      {/* ─── MAIN ─── */}
-      <div className="main">
-        {error && <div className="error-box">
-          <i className="fas fa-exclamation-circle"></i> {error}
-          <div style={{marginTop:8}}>
-            <button onClick={runDiag} style={{background:'var(--red)',color:'#fff',border:'none',padding:'6px 12px',borderRadius:4,cursor:'pointer',fontSize:12,marginRight:8}}>
-              <i className="fas fa-stethoscope"></i> Diagnostico
-            </button>
-            <span style={{fontSize:11,color:'var(--muted)'}}>Revisa la terminal del servidor para mas detalles</span>
-          </div>
-        </div>}
+      <div class="filter-group">
+        <label class="filter-label">Precio (ARS)</label>
+        <input type="number" id="minPrice" class="input" placeholder="Mínimo">
+        <input type="number" id="maxPrice" class="input" placeholder="Máximo">
+      </div>
 
-        {paging.total > 0 && <>
-          <div className="stats">
-            <div className="stat"><div className="label">Resultados</div><div className="val y">{paging.total.toLocaleString()}</div></div>
-            <div className="stat"><div className="label">Precio promedio</div><div className="val">{fmt(avgPrice)}</div><div className="sub">Oferta: {fmt(Math.round(avgPrice*(1-discount/100)))}</div></div>
-            <div className="stat"><div className="label">USD/m2 promedio</div><div className="val b">{avgPm2 ? `$${avgPm2}` : '-'}</div></div>
-            <div className="stat"><div className="label">Score promedio</div><div className="val" style={{color:scoreColor(avgScore)}}>{avgScore}/100</div></div>
-            <div className="stat"><div className="label">Bajo mercado</div><div className="val g">{belowMarket}</div><div className="sub">de {enriched.length} visibles</div></div>
-            <div className="stat"><div className="label">Favoritos</div><div className="val r">{favs.size}</div></div>
-          </div>
+      <div class="filter-group">
+        <label class="filter-label">Dormitorios</label>
+        <select id="bedrooms" class="select">
+          <option value="">Todos</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+        </select>
+      </div>
 
-          <div className="toolbar">
-            <button className={`tbtn ${view==='grid'?'active':''}`} onClick={()=>setView('grid')}><i className="fas fa-th"></i> Grid</button>
-            <button className={`tbtn ${view==='table'?'active':''}`} onClick={()=>setView('table')}><i className="fas fa-list"></i> Tabla</button>
-            <button className={`tbtn ${showFavsOnly?'active':''}`} onClick={()=>setShowFavsOnly(p=>!p)}><i className="fas fa-heart"></i> Solo favs</button>
-            <div className="spacer"></div>
-            <button className="tbtn" onClick={()=>toggleSort('score')}><i className="fas fa-star"></i> Score {sortCol==='score'?(sortDir==='asc'?'↑':'↓'):''}</button>
-            <button className="tbtn" onClick={()=>toggleSort('pm2')}><i className="fas fa-ruler"></i> USD/m2 {sortCol==='pm2'?(sortDir==='asc'?'↑':'↓'):''}</button>
-            <button className="tbtn" onClick={()=>exportCSV(enriched)}><i className="fas fa-download"></i> CSV</button>
-            {favs.size > 0 && <button className="tbtn" onClick={()=>exportCSV(enriched.filter(r=>favs.has(r.id)))}><i className="fas fa-heart"></i> CSV Favs</button>}
-            <span className="result-count">{enriched.length} propiedades</span>
-          </div>
-        </>}
+      <div class="filter-group">
+        <label class="filter-label">Metros²</label>
+        <input type="number" id="minArea" class="input" placeholder="Mínimo">
+        <input type="number" id="maxArea" class="input" placeholder="Máximo">
+      </div>
 
-        {loading && <div className="loading"><div className="spinner"></div>Consultando API de Mercado Libre...</div>}
+      <div class="filter-group">
+        <label class="filter-label">Años de Antigüedad</label>
+        <input type="number" id="maxAge" class="input" placeholder="Máximo años">
+      </div>
 
-        {!loading && results.length === 0 && !error && (
-          <div className="empty">
-            <i className="fas fa-city"></i>
-            <h2 style={{color:'var(--text)',marginBottom:8}}>MELI Search</h2>
-            <p>Configura los filtros y hace click en Buscar.<br/>Los datos vienen directo de la API de Mercado Libre, sin limites del cliente web.</p>
-            <p style={{marginTop:16,fontSize:12}}>
-              <strong>Datapoints extra:</strong> Score de match con tu perfil, USD/m2,<br/>
-              comparativa vs mercado, estimacion de renta, y mas.
-            </p>
-          </div>
-        )}
+      <div class="filter-group">
+        <label class="filter-label">Operación</label>
+        <select id="operation" class="select">
+          <option value="">Ambas</option>
+          <option value="venta">Venta</option>
+          <option value="alquiler">Alquiler</option>
+        </select>
+      </div>
+    </div>
 
-        {/* ─── GRID VIEW ─── */}
-        {!loading && enriched.length > 0 && view === 'grid' && (
-          <div className="grid">
-            {enriched.map(item => {
-              const offer = item.price ? Math.round(item.price*(1-discount/100)) : null;
-              const rooms = attr(item.attributes,'ROOMS');
-              const beds = attr(item.attributes,'BEDROOMS');
-              const baths = attr(item.attributes,'FULL_BATHROOMS');
-              const area = attr(item.attributes,'TOTAL_AREA');
-              const parking = attr(item.attributes,'PARKING_LOTS');
-              const isFav = favs.has(item.id);
-              const sb = scoreBadge(item._score);
+    <div class="section">
+      <button id="searchBtn" class="btn btn-primary" style="width:100%;margin-bottom:8px">
+        <i class="fas fa-search"></i> Buscar
+      </button>
+      <button id="clearBtn" class="btn btn-secondary" style="width:100%">
+        <i class="fas fa-redo"></i> Limpiar
+      </button>
+    </div>
 
-              return (
-                <div className="card" key={item.id}>
-                  <div style={{position:'relative'}}>
-                    <img className="card-img" loading="lazy"
-                      src={item.thumbnail?.replace('http:','https:').replace('-I.jpg','-O.jpg')}
-                      onError={e=>e.target.src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180"><rect fill="%231a1a3e" width="400" height="180"/><text fill="%23555" x="200" y="95" text-anchor="middle" font-size="14">Sin imagen</text></svg>'} />
-                    <div className="card-badges">
-                      {sb && <span className={`card-badge ${sb.cls}`}>{sb.label} {item._score}</span>}
-                      {item._mkt && item._mkt.diff < -15 && <span className="card-badge cb-cheap">-{Math.abs(item._mkt.diff)}% vs mercado</span>}
-                      {item._mkt && item._mkt.diff > 20 && <span className="card-badge cb-expensive">+{item._mkt.diff}% vs mercado</span>}
-                    </div>
-                    <button className={`card-fav ${isFav?'active':''}`} onClick={()=>toggleFav(item.id)}>
-                      <i className={isFav?'fas fa-heart':'far fa-heart'}></i>
-                    </button>
-                  </div>
-                  <div className="card-body">
-                    <div className="card-title">{item.title}</div>
-                    <div className="card-loc"><i className="fas fa-map-marker-alt"></i> {item.address?.city_name}{item.address?.state_name?`, ${item.address.state_name}`:''}</div>
-
-                    <div className="card-prices">
-                      <div className="price-main">{fmt(item.price, item.currency_id)}</div>
-                      {item._pm2 && <div className="price-m2">U$D {item._pm2}/m2 {item._mkt ? `(${item._mkt.diff>0?'+':''}${item._mkt.diff}% vs zona)` : ''}</div>}
-                      {offer && <div className="price-offer"><i className="fas fa-hand-holding-usd"></i> Oferta -{discount}%: {fmt(offer, item.currency_id)}</div>}
-                    </div>
-
-                    <div className="card-chips">
-                      {rooms && <span className="chip"><i className="fas fa-door-open"></i>{rooms} amb</span>}
-                      {beds && <span className="chip"><i className="fas fa-bed"></i>{beds} dorm</span>}
-                      {baths && <span className="chip"><i className="fas fa-bath"></i>{baths}</span>}
-                      {area && <span className="chip"><i className="fas fa-ruler-combined"></i>{area} m2</span>}
-                      {parking && <span className="chip"><i className="fas fa-car"></i>{parking}</span>}
-                    </div>
-
-                    <div className="card-meta">
-                      {item._rent && <div className="meta-item">Renta est: <span>U$D {item._rent.monthly}/mes</span></div>}
-                      {item._rent && <div className="meta-item">Yield: <span>{item._rent.annual}% anual</span></div>}
-                      {item._mkt && <div className="meta-item">Ref zona: <span>U$D {item._mkt.bench}/m2</span></div>}
-                    </div>
-
-                    <div className="card-score">
-                      <span style={{fontSize:10,color:'var(--muted)'}}>Match</span>
-                      <div className="score-bar"><div className="score-fill" style={{width:`${item._score}%`,background:scoreColor(item._score)}}></div></div>
-                      <span className="score-label" style={{color:scoreColor(item._score)}}>{item._score}</span>
-                    </div>
-
-                    <div className="card-actions">
-                      <a className="a-view" href={item.permalink} target="_blank" rel="noopener"><i className="fas fa-external-link-alt"></i> Ver en ML</a>
-                      <a className="a-contact" href={item.permalink} target="_blank" rel="noopener"><i className="fas fa-comment-dollar"></i> Contactar</a>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* ─── TABLE VIEW ─── */}
-        {!loading && enriched.length > 0 && view === 'table' && (
-          <div style={{overflowX:'auto'}}>
-            <table className="tbl">
-              <thead><tr>
-                <th style={{width:30}}><i className="fas fa-heart" style={{color:'var(--red)'}}></i></th>
-                <th onClick={()=>toggleSort('score')}>Score {sortCol==='score'?(sortDir==='asc'?'↑':'↓'):''}</th>
-                <th>Propiedad</th>
-                <th>Ubicacion</th>
-                <th onClick={()=>toggleSort('price')}>Precio {sortCol==='price'?(sortDir==='asc'?'↑':'↓'):''}</th>
-                <th>Oferta -{discount}%</th>
-                <th onClick={()=>toggleSort('pm2')}>USD/m2 {sortCol==='pm2'?(sortDir==='asc'?'↑':'↓'):''}</th>
-                <th>vs Zona</th>
-                <th>Renta est.</th>
-                <th>Amb</th>
-                <th>Dorm</th>
-                <th onClick={()=>toggleSort('area')}>m2 {sortCol==='area'?(sortDir==='asc'?'↑':'↓'):''}</th>
-                <th>Link</th>
-              </tr></thead>
-              <tbody>
-                {enriched.map(r => (
-                  <tr key={r.id}>
-                    <td><button onClick={()=>toggleFav(r.id)} style={{background:'none',border:'none',cursor:'pointer',color:favs.has(r.id)?'var(--red)':'#444',fontSize:14}}><i className={favs.has(r.id)?'fas fa-heart':'far fa-heart'}></i></button></td>
-                    <td><span style={{color:scoreColor(r._score),fontWeight:700}}>{r._score}</span></td>
-                    <td style={{maxWidth:220,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.title}</td>
-                    <td>{r.address?.city_name||'-'}</td>
-                    <td className="prc">{fmt(r.price,r.currency_id)}</td>
-                    <td className="ofr">{r.price?fmt(Math.round(r.price*(1-discount/100)),r.currency_id):'-'}</td>
-                    <td>{r._pm2?`$${r._pm2}`:'-'}</td>
-                    <td style={{color:r._mkt?(r._mkt.diff<0?'var(--green)':'var(--red)'):'var(--muted)'}}>{r._mkt?`${r._mkt.diff>0?'+':''}${r._mkt.diff}%`:'-'}</td>
-                    <td>{r._rent?`$${r._rent.monthly}/m`:'-'}</td>
-                    <td>{attr(r.attributes,'ROOMS')||'-'}</td>
-                    <td>{attr(r.attributes,'BEDROOMS')||'-'}</td>
-                    <td>{attr(r.attributes,'TOTAL_AREA')||'-'}</td>
-                    <td><a href={r.permalink} target="_blank" rel="noopener" style={{color:'var(--blue)'}}>Ver <i className="fas fa-external-link-alt" style={{fontSize:9}}></i></a></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {!loading && totalPages > 1 && (
-          <div className="pagination">
-            <button disabled={curPage<=1} onClick={()=>search(paging.offset-paging.limit)}><i className="fas fa-chevron-left"></i></button>
-            <button className="active" disabled>Pag {curPage} / {totalPages}</button>
-            <button disabled={curPage>=totalPages} onClick={()=>search(paging.offset+paging.limit)}><i className="fas fa-chevron-right"></i></button>
-          </div>
-        )}
+    <div class="section">
+      <div class="section-title">Opciones de ML</div>
+      <div class="filter-group">
+        <label class="filter-label">Análisis de Precio</label>
+        <select id="mlAnalysis" class="select">
+          <option value="none">Desactivado</option>
+          <option value="valuation">Tasación ML</option>
+          <option value="market">Análisis de Mercado</option>
+          <option value="both">Ambos Análisis</option>
+        </select>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px">
+        <i class="fas fa-info-circle"></i> ML ayuda a identificar precios anómalos
       </div>
     </div>
   </div>
-  );
+
+  <div class="main">
+    <div id="messageBox"></div>
+
+    <div class="stats-row" id="statsRow" style="display:none">
+      <div class="stat-box">
+        <div class="stat-label">Total Resultados</div>
+        <div class="stat-value" id="totalResults">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Precio Promedio</div>
+        <div class="stat-value" id="avgPrice">$0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Precio Mínimo</div>
+        <div class="stat-value" id="minPriceDisplay">$0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Precio Máximo</div>
+        <div class="stat-value" id="maxPriceDisplay">$0</div>
+      </div>
+    </div>
+
+    <div id="resultsContainer" class="results-grid" style="min-height:400px;display:flex;align-items:center;justify-content:center;color:var(--muted)">
+      <div style="text-align:center">
+        <i class="fas fa-search" style="font-size:48px;margin-bottom:12px;opacity:0.3"></i>
+        <div>Ingresa criterios de búsqueda y presiona "Buscar"</div>
+      </div>
+    </div>
+
+    <div class="pagination" id="paginationContainer" style="display:none"></div>
+  </div>
+</div>
+
+<div class="modal" id="detailModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle" style="color:#1a1a1a;margin:0">Detalles</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img" id="modalImage">
+        <i class="fas fa-image"></i>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Precio</div>
+          <div style="font-size:20px;font-weight:700;color:var(--yellow)" id="modalPrice">$0</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Tipo</div>
+          <div style="font-size:14px;color:var(--text)" id="modalType">-</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Dormitorios</div>
+          <div style="font-size:14px;color:var(--text)" id="modalBeds">-</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Metros²</div>
+          <div style="font-size:14px;color:var(--text)" id="modalArea">-</div>
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Descripción</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.5" id="modalDesc">-</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Ubicación</div>
+        <div style="font-size:12px;color:var(--text)" id="modalLocation">-</div>
+      </div>
+      <div id="mlInsight" style="background:var(--surface);padding:12px;border-radius:6px;margin-bottom:12px;display:none">
+        <div style="font-size:11px;color:var(--yellow);font-weight:600;margin-bottom:6px">Análisis ML</div>
+        <div id="mlText" style="font-size:12px;color:var(--text)"></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" style="flex:1" onclick="window.open(currentItem?.url,'_blank')">Ver en MELI</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="copyToClipboard(currentItem)">Copiar Datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = '/api/ml-proxy';
+let currentPage = 1;
+let lastQuery = {};
+let currentItem = null;
+let allResults = [];
+
+function escapeHtml(text) {
+  const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+  return text.replace(/[&<>"']/g,m=>map[m]);
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+function showMessage(text,type='info') {
+  const box = document.getElementById('messageBox');
+  const className = type==='error'?'error-box':type==='success'?'success-box':'info';
+  box.innerHTML = `<div class="${className}"><i class="fas fa-${type==='error'?'exclamation-circle':type==='success'?'check-circle':'info-circle'}"></i> ${escapeHtml(text)}</div>`;
+  setTimeout(()=>box.innerHTML='',5000);
+}
+
+async function performSearch() {
+  const search = document.getElementById('searchInput').value || 'Buenos Aires';
+  const type = document.getElementById('propertyType').value || '';
+  const minPrice = document.getElementById('minPrice').value || '';
+  const maxPrice = document.getElementById('maxPrice').value || '';
+  const beds = document.getElementById('bedrooms').value || '';
+  const minArea = document.getElementById('minArea').value || '';
+  const maxArea = document.getElementById('maxArea').value || '';
+  const maxAge = document.getElementById('maxAge').value || '';
+  const operation = document.getElementById('operation').value || '';
+  const mlAnalysis = document.getElementById('mlAnalysis').value;
+
+  lastQuery = {search,type,minPrice,maxPrice,beds,minArea,maxArea,maxAge,operation,mlAnalysis};
+  currentPage = 1;
+
+  const container = document.getElementById('resultsContainer');
+  container.innerHTML = '<div class="spinner"></div>';
+
+  try {
+    const params = new URLSearchParams({
+      query: search,
+      page: currentPage,
+      limit: 20,
+      ...(type && {property_type: type}),
+      ...(minPrice && {min_price: minPrice}),
+      ...(maxPrice && {max_price: maxPrice}),
+      ...(beds && {bedrooms: beds}),
+      ...(minArea && {min_area: minArea}),
+      ...(maxArea && {max_area: maxArea}),
+      ...(maxAge && {max_age: maxAge}),
+      ...(operation && {operation}),
+      ...(mlAnalysis !== 'none' && {ml_analysis: mlAnalysis})
+    });
+
+    const response = await fetch(`${API_BASE}/search?${params}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include'
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+
+    if (!data.results || data.results.length === 0) {
+      container.innerHTML = '<div style="text-align:center;color:var(--muted)"><i class="fas fa-inbox" style="font-size:48px;margin-bottom:12px;opacity:0.3"></i><div>No se encontraron resultados</div></div>';
+      return;
+    }
+
+    allResults = data.results;
+    displayResults(data.results);
+    updateStats(data);
+    setupPagination(data.total, 20);
+
+  } catch (err) {
+    showMessage(`Error: ${err.message}`, 'error');
+    container.innerHTML = '<div style="color:var(--red)"><i class="fas fa-exclamation-triangle"></i> Error al buscar</div>';
+  }
+}
+
+function displayResults(results) {
+  const container = document.getElementById('resultsContainer');
+  container.innerHTML = results.map(item=>`
+    <div class="result-card" onclick="openModal(${JSON.stringify(item).replace(/"/g,'&quot;')})">
+      <div class="card-image">
+        ${item.image_url ? `<img src="${escapeHtml(item.image_url)}" style="width:100%;height:100%;object-fit:cover">` : '<i class="fas fa-image"></i>'}
+      </div>
+      <div class="card-content">
+        <div class="card-title">${escapeHtml(item.title || 'Sin título')}</div>
+        <div class="card-price">$${(item.price || 0).toLocaleString('es-AR')}</div>
+        <div class="card-meta">
+          ${item.bedrooms ? `<div class="card-meta-item"><i class="fas fa-bed"></i> ${item.bedrooms}dorm</div>` : ''}
+          ${item.area ? `<div class="card-meta-item"><i class="fas fa-ruler"></i> ${item.area}m²</div>` : ''}
+          ${item.operation ? `<div class="card-meta-item"><i class="fas fa-tag"></i> ${escapeHtml(item.operation)}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStats(data) {
+  if (!data.results || data.results.length === 0) return;
+  
+  const prices = data.results.map(r=>r.price).filter(p=>p);
+  const avg = prices.length ? Math.round(prices.reduce((a,b)=>a+b)/prices.length) : 0;
+  const min = prices.length ? Math.min(...prices) : 0;
+  const max = prices.length ? Math.max(...prices) : 0;
+
+  document.getElementById('totalResults').textContent = data.total || 0;
+  document.getElementById('avgPrice').textContent = `$${avg.toLocaleString('es-AR')}`;
+  document.getElementById('minPriceDisplay').textContent = `$${min.toLocaleString('es-AR')}`;
+  document.getElementById('maxPriceDisplay').textContent = `$${max.toLocaleString('es-AR')}`;
+  document.getElementById('statsRow').style.display = 'grid';
+}
+
+function setupPagination(total, perPage) {
+  const pages = Math.ceil(total / perPage);
+  if (pages <= 1) return;
+
+  const container = document.getElementById('paginationContainer');
+  container.innerHTML = '';
+  container.style.display = 'flex';
+
+  if (currentPage > 1) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn';
+    btn.textContent = 'Anterior';
+    btn.onclick = () => goToPage(currentPage - 1);
+    container.appendChild(btn);
+  }
+
+  for (let i = Math.max(1,currentPage-2); i <= Math.min(pages,currentPage+2); i++) {
+    const btn = document.createElement('button');
+    btn.className = `page-btn ${i===currentPage?'active':''}`;
+    btn.textContent = i;
+    btn.onclick = () => goToPage(i);
+    container.appendChild(btn);
+  }
+
+  if (currentPage < pages) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn';
+    btn.textContent = 'Siguiente';
+    btn.onclick = () => goToPage(currentPage + 1);
+    container.appendChild(btn);
+  }
+}
+
+async function goToPage(page) {
+  currentPage = page;
+  window.scrollTo({top:0,behavior:'smooth'});
+  performSearch();
+}
+
+function openModal(item) {
+  currentItem = item;
+  document.getElementById('modalTitle').textContent = escapeHtml(item.title || 'Detalles');
+  document.getElementById('modalPrice').textContent = `$${(item.price || 0).toLocaleString('es-AR')}`;
+  document.getElementById('modalType').textContent = escapeHtml(item.property_type || '-');
+  document.getElementById('modalBeds').textContent = item.bedrooms ? `${item.bedrooms} dorm` : '-';
+  document.getElementById('modalArea').textContent = item.area ? `${item.area}m²` : '-';
+  document.getElementById('modalDesc').textContent = escapeHtml(item.description || 'Sin descripción');
+  document.getElementById('modalLocation').textContent = escapeHtml(item.location || '-');
+
+  if (item.image_url) {
+    document.getElementById('modalImage').innerHTML = `<img src="${escapeHtml(item.image_url)}" style="width:100%;height:100%;object-fit:cover;border-radius:8px">`;
+  } else {
+    document.getElementById('modalImage').innerHTML = '<i class="fas fa-image"></i>';
+  }
+
+  if (item.ml_analysis) {
+    document.getElementById('mlInsight').style.display = 'block';
+    document.getElementById('mlText').textContent = escapeHtml(item.ml_analysis);
+  } else {
+    document.getElementById('mlInsight').style.display = 'none';
+  }
+
+  document.getElementById('detailModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('active');
+}
+
+function copyToClipboard(item) {
+  if (!item) return;
+  const text = `${item.title}\n$${item.price}\n${item.location}\nMETROS: ${item.area}m²\nDORMITORIOS: ${item.bedrooms}\nURL: ${item.url}`;
+  navigator.clipboard.writeText(text).then(()=>showMessage('Copiado al portapapeles','success')).catch(err=>showMessage('Error al copiar','error'));
+}
+
+document.getElementById('searchBtn').addEventListener('click', performSearch);
+document.getElementById('clearBtn').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('propertyType').value = '';
+  document.getElementById('minPrice').value = '';
+  document.getElementById('maxPrice').value = '';
+  document.getElementById('bedrooms').value = '';
+  document.getElementById('minArea').value = '';
+  document.getElementById('maxArea').value = '';
+  document.getElementById('maxAge').value = '';
+  document.getElementById('operation').value = '';
+  document.getElementById('mlAnalysis').value = 'none';
+  document.getElementById('resultsContainer').innerHTML = '<div style="text-align:center;color:var(--muted)"><i class="fas fa-search" style="font-size:48px;margin-bottom:12px;opacity:0.3"></i><div>Ingresa criterios de búsqueda y presiona "Buscar"</div></div>';
+  document.getElementById('statsRow').style.display = 'none';
+  document.getElementById('paginationContainer').style.display = 'none';
+});
+
+document.getElementById('searchInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') performSearch();
+});
+
+document.getElementById('detailModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('detailModal')) closeModal();
+});
+
+console.log('MELI Search v2.0 Vercel Ready - Using /api/ml-proxy');
 </script>
+
 </body>
 </html>
