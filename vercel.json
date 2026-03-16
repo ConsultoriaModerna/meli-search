@@ -1,13 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "public/**", "use": "@vercel/static" }
-  ],
+  "regions": ["gru1"],
   "routes": [
-    { "src": "/api/search", "dest": "/api/search.js" },
-    { "src": "/api/scrape", "dest": "/api/scrape.js" },
-    { "src": "/api/health", "dest": "/api/health.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
