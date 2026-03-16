@@ -314,46 +314,72 @@ function App() {
     return p.toString();
   };
 
-  // Smart fetch: try ML API directly from browser first (residential IP), fallback to proxy
-  const smartFetch = async (qs) => {
-    const directUrl = `https://api.mercadolibre.com/sites/MLA/search?${qs}`;
-    const proxyUrl = `/api/search?${qs}`;
-    // 1. Try direct ML API (works from user's browser with residential IP)
+  // Build scrape URL params
+  const buildScrapeParams = (offset=0) => {
+    const p = new URLSearchParams();
+    p.set('category', f.category);
+    p.set('operation', f.operation);
+    if (f.zone) p.set('zone', f.zone);
+    if (f.priceMin) p.set('priceMin', f.priceMin);
+    if (f.priceMax) p.set('priceMax', f.priceMax);
+    if (f.currency) p.set('currency', f.currency);
+    if (f.roomsMin) p.set('rooms', f.roomsMin);
+    if (f.bedsMin) p.set('beds', f.bedsMin);
+    if (f.bathsMin) p.set('baths', f.bathsMin);
+    if (f.areaMin) p.set('area_min', f.areaMin);
+    if (f.areaMax) p.set('area_max', f.areaMax);
+    if (f.parkingMin) p.set('parking', f.parkingMin);
+    if (f.sort) p.set('sort', f.sort);
+    if (f.q) p.set('q', f.q);
+    if (offset > 0) p.set('offset', String(offset));
+    return p.toString();
+  };
+
+  // Smart fetch: try ML API directly, then API proxy, then web scraper
+  const smartFetch = async (apiQs, offset) => {
+    // 1. Try direct ML API from browser (works with VPN/residential IP)
+    const directUrl = `https://api.mercadolibre.com/sites/MLA/search?${apiQs}`;
     try {
-      console.log('Trying direct ML API:', directUrl);
+      console.log('1. Trying direct ML API:', directUrl);
       const res = await fetch(directUrl, { headers: { 'Accept': 'application/json' } });
       if (res.ok) {
         const data = await res.json();
-        if (data.results) { console.log('Direct ML API OK'); return data; }
+        if (data.results && data.results.length > 0) { console.log('Direct ML API OK -', data.results.length, 'results'); return data; }
       }
-      console.log('Direct ML API returned', res.status);
-    } catch(e) { console.log('Direct ML API failed (CORS or network):', e.message); }
-    // 2. Fallback to Vercel proxy
+      console.log('Direct ML API status:', res.status);
+    } catch(e) { console.log('Direct ML API failed:', e.message); }
+
+    // 2. Try Vercel API proxy
     try {
-      console.log('Trying proxy:', proxyUrl);
-      const res = await fetch(proxyUrl);
+      console.log('2. Trying API proxy');
+      const res = await fetch(`/api/search?${apiQs}`);
       if (res.ok) {
         const data = await res.json();
-        if (data.results) { console.log('Proxy OK'); return data; }
+        if (data.results && data.results.length > 0) { console.log('API proxy OK'); return data; }
       }
-      // 3. If proxy 403, try without OPERATION filter
-      const fallbackQs = qs.replace(/&?OPERATION=[^&]*/g, '').replace(/^&/, '');
-      console.log('Proxy 403 - retrying without OPERATION');
-      const res2 = await fetch(`/api/search?${fallbackQs}`);
-      if (res2.ok) {
-        const data2 = await res2.json();
-        if (data2.results) return data2;
+    } catch(e) { console.log('API proxy failed:', e.message); }
+
+    // 3. Try web scraper (fetches ML HTML pages and parses JSON-LD)
+    const scrapeQs = buildScrapeParams(offset);
+    try {
+      console.log('3. Trying web scraper:', `/api/scrape?${scrapeQs}`);
+      const res = await fetch(`/api/scrape?${scrapeQs}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.results && data.results.length > 0) { console.log('Scraper OK -', data.results.length, 'results'); return data; }
       }
-      const body = await res2.text();
-      throw new Error(`API unavailable (${res2.status}). Pruebe abrir la app en su navegador personal.`);
-    } catch(e) { throw e; }
+      const errBody = await res.text();
+      console.log('Scraper failed:', res.status, errBody.substring(0, 200));
+    } catch(e) { console.log('Scraper failed:', e.message); }
+
+    throw new Error('No se pudo conectar a Mercado Libre por ninguna via. Proba activar una VPN o abri la app en tu navegador personal.');
   };
 
   const search = async (offset=0) => {
     setLoading(true); setError(null);
     try {
       const qs = buildQueryParams(offset);
-      const data = await smartFetch(qs);
+      const data = await smartFetch(qs, offset);
       setResults(data.results || []);
       setPaging(data.paging || { total:0, offset:0, limit:50 });
       if (data.available_filters) setApiFilters(data.available_filters);
