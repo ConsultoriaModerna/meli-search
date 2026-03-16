@@ -6,6 +6,7 @@
   ],
   "routes": [
     { "src": "/api/search", "dest": "/api/search.js" },
+    { "src": "/api/scrape", "dest": "/api/scrape.js" },
     { "src": "/api/health", "dest": "/api/health.js" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
