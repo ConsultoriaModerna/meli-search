@@ -30,87 +30,105 @@ body { font-family: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI'
 .main { padding:20px; overflow-y:auto; }
 
 .section { margin-bottom:16px; }
-.section-title { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:10px; letter-spacing:0.5px; }
-.filter-group { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
-.input-group { display:flex; flex-direction:column; gap:4px; }
-.input-group label { font-size:11px; color:var(--muted); }
-.input-group input, .input-group select { padding:8px; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:12px; }
-.input-group input:focus, .input-group select:focus { outline:none; border-color:var(--yellow); box-shadow:0 0 0 2px rgba(255,230,0,0.1); }
+.section-title { font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:var(--yellow); margin-bottom:8px; font-weight:700; display:flex; align-items:center; gap:6px; }
+.row { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
+.row.full { grid-template-columns:1fr; }
 
-.btn { padding:8px 12px; border:none; border-radius:6px; font-weight:600; font-size:12px; cursor:pointer; transition:all 0.2s; }
-.btn-primary { background:var(--yellow); color:#1a1a1a; }
-.btn-primary:hover { background:#f0c800; transform:translateY(-1px); }
-.btn-secondary { background:var(--surface); color:var(--text); border:1px solid var(--border); }
-.btn-secondary:hover { background:var(--border); }
-.btn-danger { background:var(--red); color:#fff; }
-.btn-success { background:var(--green); color:#000; }
+input,select { background:var(--surface); border:1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:6px; font-size:12px; width:100%; }
+input:focus,select:focus { outline:none; border-color:var(--blue); }
+input::placeholder { color:var(--muted); }
+select { cursor:pointer; }
 
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-bottom:20px; }
-.card { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; transition:all 0.2s; }
-.card:hover { border-color:var(--yellow); box-shadow:0 8px 24px rgba(255,230,0,0.1); }
-.card-header { background:var(--surface); padding:12px; border-bottom:1px solid var(--border); }
-.card-header h3 { font-size:14px; margin-bottom:4px; }
-.card-score { font-size:11px; color:var(--muted); }
-.card-body { padding:12px; }
-.card-body p { font-size:12px; color:var(--muted); margin-bottom:8px; }
-.price-display { font-size:16px; font-weight:700; color:var(--yellow); margin:8px 0; }
-.metrics { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:12px 0; }
-.metric { background:var(--surface); padding:8px; border-radius:4px; }
-.metric-label { font-size:10px; color:var(--muted); }
-.metric-value { font-size:13px; font-weight:700; color:var(--text); }
-.price-m2 { color:var(--green); }
-.price-range { color:var(--orange); }
-.location-match { color:var(--blue); }
-.score-badge { display:inline-block; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:700; margin-right:4px; margin-top:4px; }
-.score-excellent { background:rgba(0,200,83,0.2); color:var(--green); }
-.score-good { background:rgba(52,131,250,0.2); color:var(--blue); }
-.score-fair { background:rgba(255,140,0,0.2); color:var(--orange); }
-.score-poor { background:rgba(255,61,90,0.2); color:var(--red); }
-.card-footer { padding:12px; border-top:1px solid var(--border); display:flex; gap:8px; justify-content:flex-end; }
-.card-footer button { flex:1; }
+.btn { padding:10px; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:13px; width:100%; transition:all .15s; }
+.btn-primary { background:var(--blue); color:#fff; }
+.btn-primary:hover { background:#2868c8; }
+.btn-primary:disabled { opacity:.4; }
+.btn-outline { background:transparent; color:var(--yellow); border:1px solid var(--yellow); margin-top:6px; font-size:12px; padding:8px; }
+.btn-outline:hover { background:rgba(255,230,0,.08); }
 
-.stats-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:20px; }
-.stat-box { background:var(--card); border:1px solid var(--border); padding:16px; border-radius:8px; }
-.stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; }
-.stat-value { font-size:24px; font-weight:700; color:var(--yellow); margin-top:8px; }
+.profile-box { background:var(--surface); border-radius:8px; padding:12px; margin-bottom:16px; border-left:3px solid var(--yellow); }
+.profile-box h4 { font-size:12px; color:var(--yellow); margin-bottom:6px; }
+.profile-box p { font-size:11px; color:var(--muted); line-height:1.5; }
+.tag { display:inline-block; background:rgba(52,131,250,.15); color:var(--blue); padding:2px 7px; border-radius:8px; font-size:10px; margin:2px 2px 0 0; }
 
-.modal { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:1000; }
-.modal-content { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:600px; max-height:80vh; overflow-y:auto; }
-.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-.modal-header h2 { font-size:16px; }
-.close-btn { background:none; border:none; color:var(--text); font-size:20px; cursor:pointer; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:16px; }
+.stat { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px; }
+.stat .label { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+.stat .val { font-size:22px; font-weight:800; margin-top:4px; }
+.stat .val.y { color:var(--yellow); } .stat .val.g { color:var(--green); } .stat .val.r { color:var(--red); } .stat .val.b { color:var(--blue); }
+.stat .sub { font-size:10px; color:var(--muted); margin-top:2px; }
 
-.compare-table { width:100%; border-collapse:collapse; }
-.compare-table th, .compare-table td { padding:12px; border:1px solid var(--border); text-align:left; font-size:12px; }
-.compare-table th { background:var(--surface); font-weight:700; }
-.compare-table tr:nth-child(even) { background:var(--surface); }
+.toolbar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+.tbtn { padding:7px 14px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:12px; display:flex; align-items:center; gap:5px; }
+.tbtn:hover { border-color:var(--blue); color:var(--blue); }
+.tbtn.active { background:var(--blue); border-color:var(--blue); color:#fff; }
+.spacer { flex:1; }
+.result-count { font-size:12px; color:var(--muted); }
 
-.toast { position:fixed; bottom:20px; right:20px; background:var(--surface); border:1px solid var(--border); padding:12px 16px; border-radius:6px; font-size:12px; max-width:300px; }
-.toast.success { border-color:var(--green); }
-.toast.error { border-color:var(--red); }
+/* Cards */
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:all .2s; position:relative; }
+.card:hover { border-color:var(--blue); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.4); }
+.card-img { width:100%; height:180px; object-fit:cover; background:var(--surface); display:block; }
+.card-badges { position:absolute; top:8px; left:8px; display:flex; gap:4px; flex-wrap:wrap; }
+.card-badge { padding:3px 8px; border-radius:4px; font-size:10px; font-weight:700; backdrop-filter:blur(8px); }
+.cb-score { background:rgba(0,200,83,.9); color:#fff; }
+.cb-cheap { background:rgba(52,131,250,.9); color:#fff; }
+.cb-expensive { background:rgba(255,61,90,.9); color:#fff; }
+.cb-new { background:rgba(156,39,176,.9); color:#fff; }
+.card-fav { position:absolute; top:8px; right:8px; background:rgba(0,0,0,.5); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:14px; backdrop-filter:blur(4px); }
+.card-fav.active { background:var(--red); }
+.card-body { padding:14px; }
+.card-title { font-size:14px; font-weight:600; line-height:1.3; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.card-loc { font-size:11px; color:var(--muted); margin-bottom:10px; }
+.card-loc i { color:var(--blue); margin-right:3px; }
+.card-prices { margin-bottom:10px; }
+.price-main { font-size:18px; font-weight:800; }
+.price-m2 { font-size:11px; color:var(--muted); margin-top:2px; }
+.price-offer { font-size:13px; color:var(--green); font-weight:700; margin-top:4px; }
+.card-chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.chip { background:var(--surface); padding:3px 8px; border-radius:10px; font-size:11px; color:var(--muted); }
+.chip i { margin-right:3px; font-size:9px; }
+.card-meta { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:12px; }
+.meta-item { font-size:10px; color:var(--muted); }
+.meta-item span { color:var(--text); font-weight:600; }
+.card-score { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.score-bar { flex:1; height:6px; background:var(--surface); border-radius:3px; overflow:hidden; }
+.score-fill { height:100%; border-radius:3px; transition:width .3s; }
+.score-label { font-size:11px; font-weight:700; min-width:36px; text-align:right; }
+.card-actions { display:flex; gap:6px; }
+.card-actions a,.card-actions button { flex:1; padding:8px; border-radius:6px; text-align:center; font-size:11px; font-weight:700; text-decoration:none; cursor:pointer; border:none; }
+.a-view { background:var(--blue); color:#fff; }
+.a-contact { background:var(--surface); color:var(--text); border:1px solid var(--border); }
 
-.empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; color:var(--muted); text-align:center; }
-.empty-state i { font-size:48px; margin-bottom:16px; opacity:0.3; }
+/* Table */
+table.tbl { width:100%; border-collapse:collapse; font-size:12px; }
+.tbl th { background:var(--surface); padding:10px 12px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); position:sticky; top:0; z-index:1; cursor:pointer; }
+.tbl th:hover { color:var(--yellow); }
+.tbl td { padding:10px 12px; border-bottom:1px solid var(--border); }
+.tbl tr:hover td { background:rgba(52,131,250,.04); }
+.tbl .prc { font-weight:700; } .tbl .ofr { color:var(--green); font-weight:600; }
 
-.loading { display:flex; justify-content:center; align-items:center; padding:40px; }
-.spinner { border:3px solid var(--border); border-top:3px solid var(--yellow); border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; }
-@keyframes spin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }
+.pagination { display:flex; justify-content:center; gap:6px; margin-top:20px; }
+.pagination button { padding:8px 14px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:12px; }
+.pagination button:hover { border-color:var(--blue); }
+.pagination button.active { background:var(--blue); border-color:var(--blue); }
+.pagination button:disabled { opacity:.3; cursor:default; }
 
-.action-bar { background:var(--surface); padding:12px; border-radius:6px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.loading { display:flex; flex-direction:column; align-items:center; padding:60px; color:var(--muted); }
+.spinner { width:36px; height:36px; border:3px solid var(--surface); border-top-color:var(--blue); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:12px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.empty { text-align:center; padding:80px 40px; color:var(--muted); }
+.empty i { font-size:48px; margin-bottom:14px; display:block; color:var(--border); }
 
-.zone-selector { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
-.zone-btn { padding:6px 12px; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:11px; cursor:pointer; transition:all 0.2s; }
-.zone-btn.active { background:var(--yellow); color:#1a1a1a; border-color:var(--yellow); }
-.zone-btn:hover { border-color:var(--yellow); }
+.slider-wrap { margin:6px 0; }
+.slider-wrap input[type=range] { width:100%; accent-color:var(--green); }
+.slider-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
+.slider-val { text-align:center; color:var(--green); font-weight:800; font-size:16px; }
 
-.price-input-group { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.error-box { background:rgba(255,61,90,.1); border:1px solid var(--red); padding:12px 16px; border-radius:8px; margin-bottom:14px; font-size:13px; color:var(--red); }
 
-.sort-controls { display:flex; gap:8px; margin-bottom:16px; }
-.sort-btn { padding:8px 12px; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:12px; cursor:pointer; transition:all 0.2s; }
-.sort-btn.active { background:var(--yellow); color:#1a1a1a); }
-.sort-btn:hover { border-color:var(--yellow); }
-
-.info-banner { background:rgba(52,131,250,0.1); border-left:4px solid var(--blue); padding:12px; border-radius:4px; margin-bottom:16px; font-size:12px; color:var(--text); }
+@media(max-width:900px) { .layout { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -118,470 +136,723 @@ body { font-family: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI'
 <script type="text/babel">
 const { useState, useEffect, useCallback, useMemo } = React;
 
-// Benchmarks data for different zones
+// ─── Config ─────────────────────────────────────────────
+const API = ''; // Vercel serverless proxy
+
+const CATEGORIES = {
+  MLA1459:'Todos los Inmuebles', MLA1466:'Casas', MLA1472:'Departamentos',
+  MLA1493:'Terrenos y Lotes', MLA401685:'Locales Comerciales',
+  MLA1473:'Oficinas', MLA50541:'Cocheras', MLA1475:'Depositos/Galpones',
+  MLA401701:'PH',
+};
+
+const OPERATIONS = { '242075':'Venta', '242073':'Alquiler', '242074':'Alquiler Temporario' };
+
+const ZONES = {
+  '':'Toda Buenos Aires',
+  'TUxBUENBUGw3M2E1':'Capital Federal (CABA)',
+  'TUxBUENBUGwyNzY1':'GBA Norte',
+  'TUxBUENBUGwyNzY2':'GBA Oeste',
+  'TUxBUENBUGwyNzY3':'GBA Sur',
+  'TUxBUENBUGwyODNi':'La Plata',
+  'TUxBUENBUGwyMDM1':'Costa Atlantica',
+};
+
+const SORTS = {
+  price_asc:'Menor precio', price_desc:'Mayor precio', relevance:'Relevancia',
+};
+
+// ─── Datos de referencia por zona (precio/m2 promedio USD) ──
 const ZONE_BENCHMARKS = {
-  'Nordelta': { avgPrice: 4500, avgM2: 8500, confidence: 0.92 },
-  'Olivos': { avgPrice: 5200, avgM2: 9200, confidence: 0.88 },
-  'San Isidro': { avgPrice: 6100, avgM2: 10500, confidence: 0.91 },
-  'La Boca': { avgPrice: 3800, avgM2: 7200, confidence: 0.85 },
-  'Recoleta': { avgPrice: 5800, avgM2: 9800, confidence: 0.90 },
-  'Palermo': { avgPrice: 5100, avgM2: 8900, confidence: 0.87 },
-  'Caballito': { avgPrice: 4200, avgM2: 7800, confidence: 0.84 },
-  'Belgrano': { avgPrice: 4800, avgM2: 8400, confidence: 0.86 },
+  'Capital Federal': { avgPriceM2: 2200, rentYield: 4.5 },
+  'GBA Norte': { avgPriceM2: 1600, rentYield: 4.8 },
+  'GBA Oeste': { avgPriceM2: 900, rentYield: 5.5 },
+  'GBA Sur': { avgPriceM2: 800, rentYield: 5.8 },
+  'La Plata': { avgPriceM2: 950, rentYield: 5.2 },
+  'default': { avgPriceM2: 1400, rentYield: 4.8 },
 };
 
-// Scoring function - evaluates property based on multiple factors
-const computeScore = (property, zone) => {
-  let score = 0;
-  let factors = [];
-  
-  const benchmark = ZONE_BENCHMARKS[zone];
-  if (!benchmark) return { score: 0, factors: ['Unknown zone'] };
-  
-  // Price vs market (40% weight)
-  const priceM2 = property.price / (property.area || 1);
-  const marketM2 = benchmark.avgM2;
-  const priceDiff = ((marketM2 - priceM2) / marketM2) * 100;
-  
-  if (priceDiff > 20) {
-    score += 40;
-    factors.push('Excellent price: ' + priceDiff.toFixed(1) + '% below market');
-  } else if (priceDiff > 10) {
-    score += 30;
-    factors.push('Good price: ' + priceDiff.toFixed(1) + '% below market');
-  } else if (priceDiff > 0) {
-    score += 20;
-    factors.push('Fair price: ' + priceDiff.toFixed(1) + '% below market');
-  } else if (priceDiff > -10) {
-    score += 10;
-    factors.push('Slightly above market');
-  } else {
-    score += 0;
-    factors.push('Well above market');
-  }
-  
-  // Property features (30% weight)
-  if (property.rooms >= 3) {
-    score += 15;
-    factors.push('Good size: ' + property.rooms + ' rooms');
-  } else if (property.rooms >= 2) {
-    score += 10;
-    factors.push('Adequate size: ' + property.rooms + ' rooms');
-  }
-  
-  if (property.parking) {
-    score += 10;
-    factors.push('Has parking');
-  }
-  
-  if (property.amenities && property.amenities.length > 0) {
-    score += 5;
-    factors.push('Has amenities: ' + property.amenities.join(', '));
-  }
-  
-  // Location quality (20% weight)
-  if (benchmark.confidence > 0.90) {
-    score += 15;
-    factors.push('Premium zone');
-  } else if (benchmark.confidence > 0.85) {
-    score += 10;
-    factors.push('Good zone');
-  } else {
-    score += 5;
-    factors.push('Established zone');
-  }
-  
-  // Time on market penalty (10% weight)
-  if (property.daysOnMarket > 180) {
-    score -= 10;
-    factors.push('Long on market: ' + property.daysOnMarket + ' days');
-  } else if (property.daysOnMarket > 90) {
-    score -= 5;
-    factors.push('Moderate market time: ' + property.daysOnMarket + ' days');
-  }
-  
-  score = Math.max(0, Math.min(100, score));
-  
-  return { score: Math.round(score), factors };
-};
+// ─── Helpers ────────────────────────────────────────────
+function fmt(n, cur='USD') {
+  if (!n) return 'Consultar';
+  const s = cur === 'USD' ? 'U$D' : '$';
+  return `${s} ${n.toLocaleString('es-AR')}`;
+}
+function attr(a, id) {
+  const r = a?.find(x => x.id === id);
+  return r?.value_name || null;
+}
+function attrNum(a, id) {
+  const v = attr(a, id);
+  return v ? parseFloat(v.replace(/[^\d.,]/g,'').replace(',','.')) : null;
+}
 
-// Price vs market calculation
-const calculatePriceVsMarket = (property, zone) => {
-  const benchmark = ZONE_BENCHMARKS[zone];
-  if (!benchmark) return null;
-  
-  const priceM2 = property.price / (property.area || 1);
-  const diff = ((benchmark.avgM2 - priceM2) / benchmark.avgM2) * 100;
-  return {
-    yourPrice: priceM2.toFixed(0),
-    marketPrice: benchmark.avgM2,
-    difference: diff.toFixed(1)
-  };
-};
+function computeScore(item, profile) {
+  let score = 50;
+  const price = item.price || 0;
+  const cur = item.currency_id;
+  const area = attrNum(item.attributes, 'TOTAL_AREA');
+  const rooms = attrNum(item.attributes, 'ROOMS');
+  const beds = attrNum(item.attributes, 'BEDROOMS');
+  const baths = attrNum(item.attributes, 'FULL_BATHROOMS');
+  const parking = attrNum(item.attributes, 'PARKING_LOTS');
 
-// Sample data with smart enrichment
-const generateSampleProperties = () => [
-  { id: 1, title: 'Dept 2-Amb Nordelta', price: 180000, area: 42, rooms: 2, parking: true, zone: 'Nordelta', daysOnMarket: 45, amenities: ['Pool', 'Gym'] },
-  { id: 2, title: 'Casa 3-Amb Olivos', price: 320000, area: 55, rooms: 3, parking: true, zone: 'Olivos', daysOnMarket: 120, amenities: ['Patio', 'Garage'] },
-  { id: 3, title: 'Dept 1-Amb San Isidro', price: 250000, area: 35, rooms: 1, parking: false, zone: 'San Isidro', daysOnMarket: 60, amenities: ['Balcony'] },
-  { id: 4, title: 'Casa La Boca', price: 180000, area: 48, rooms: 2, parking: false, zone: 'La Boca', daysOnMarket: 200, amenities: ['Garden'] },
-  { id: 5, title: 'Pent Recoleta', price: 420000, area: 65, rooms: 3, parking: true, zone: 'Recoleta', daysOnMarket: 30, amenities: ['Pool', 'Gym', 'Lounge'] },
-];
+  // Price fit (closer to budget center = better)
+  if (cur === 'USD' && price > 0 && price <= profile.maxPrice) {
+    const ratio = price / profile.maxPrice;
+    if (ratio >= 0.5 && ratio <= 0.85) score += 15;
+    else if (ratio < 0.5) score += 5;
+    else score += 8;
+  }
 
-// Export to CSV
-const exportCSV = (properties, zone) => {
-  let csv = 'ID,Title,Price,Area,M2,Rooms,Parking,Zone,Days On Market,Score,Score Details\n';
-  
-  properties.forEach(prop => {
-    const { score, factors } = computeScore(prop, zone);
-    const m2 = (prop.price / prop.area).toFixed(0);
-    
-    csv += `${prop.id},"${prop.title}",${prop.price},${prop.area},${m2},${prop.rooms},${prop.parking ? 'Yes' : 'No'},"${zone}",${prop.daysOnMarket},${score},"${factors.join('; ')}"\n`;
-  });
-  
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `meli-search-${zone}-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-};
+  // Size bonus
+  if (area) {
+    if (area >= 80 && area <= 200) score += 10;
+    else if (area > 200) score += 5;
+  }
 
-// Main App Component
+  // Rooms
+  if (rooms && rooms >= 3) score += 5;
+  if (beds && beds >= 2) score += 5;
+  if (baths && baths >= 2) score += 3;
+  if (parking && parking >= 1) score += 4;
+
+  // Price per m2 value
+  if (area && price && cur === 'USD') {
+    const pm2 = price / area;
+    const zone = item.address?.state_name || 'default';
+    const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
+    if (pm2 < bench.avgPriceM2 * 0.8) score += 12; // Below market
+    else if (pm2 < bench.avgPriceM2) score += 6;
+  }
+
+  // Has photos
+  if (item.thumbnail) score += 3;
+
+  return Math.min(100, Math.max(0, score));
+}
+
+function scoreColor(s) {
+  if (s >= 75) return 'var(--green)';
+  if (s >= 55) return 'var(--yellow)';
+  if (s >= 40) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function scoreBadge(s) {
+  if (s >= 75) return { label: 'Ideal', cls: 'cb-score' };
+  if (s >= 60) return { label: 'Bueno', cls: 'cb-cheap' };
+  return null;
+}
+
+function priceVsMarket(item) {
+  const area = attrNum(item.attributes, 'TOTAL_AREA');
+  const price = item.price;
+  const cur = item.currency_id;
+  if (!area || !price || cur !== 'USD') return null;
+  const pm2 = price / area;
+  const zone = item.address?.state_name || 'default';
+  const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
+  const diff = ((pm2 - bench.avgPriceM2) / bench.avgPriceM2 * 100).toFixed(0);
+  return { pm2: Math.round(pm2), diff: Number(diff), bench: bench.avgPriceM2 };
+}
+
+function estRentalYield(item) {
+  const price = item.price;
+  const cur = item.currency_id;
+  if (!price || cur !== 'USD') return null;
+  const zone = item.address?.state_name || 'default';
+  const bench = ZONE_BENCHMARKS[zone] || ZONE_BENCHMARKS.default;
+  const monthlyRent = Math.round(price * bench.rentYield / 100 / 12);
+  return { monthly: monthlyRent, annual: bench.rentYield };
+}
+
+// ─── App ────────────────────────────────────────────────
 function App() {
-  const [properties, setProperties] = useState(generateSampleProperties());
-  const [selectedZone, setSelectedZone] = useState('Nordelta');
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 });
-  const [minArea, setMinArea] = useState(0);
-  const [sortBy, setSortBy] = useState('score');
-  const [compareMode, setCompareMode] = useState(false);
-  const [selected, setSelected] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  const [toast, setToast] = useState(null);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [paging, setPaging] = useState({ total:0, offset:0, limit:50 });
+  const [view, setView] = useState('grid');
+  const [discount, setDiscount] = useState(20);
+  const [favs, setFavs] = useState(new Set());
+  const [sortCol, setSortCol] = useState(null);
+  const [sortDir, setSortDir] = useState('asc');
+  const [showFavsOnly, setShowFavsOnly] = useState(false);
+  const [apiFilters, setApiFilters] = useState([]);
 
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
+  const profile = { name:'Nico', loc:'Bacacay 1757, CABA', maxPrice:150000, op:'Compra', type:'Casa' };
+
+  const [f, setF] = useState({
+    category:'MLA1466', operation:'242075', zone:'TUxBUENBUGw3M2E1',
+    priceMin:'', priceMax:'150000', currency:'USD',
+    roomsMin:'', roomsMax:'', bedsMin:'', bedsMax:'',
+    bathsMin:'', areaMin:'', areaMax:'', parkingMin:'',
+    sort:'price_asc', q:'',
+  });
+
+  // Post-search advanced filters (client-side)
+  const [adv, setAdv] = useState({
+    pm2Min:'', pm2Max:'',
+    scoreMin:'', scoreMax:'',
+    mktDiffMin:'', mktDiffMax:'',
+    rentMin:'', rentMax:'',
+    onlyBelowMarket: false,
+    onlyWithArea: false,
+    onlyWithParking: false,
+    onlyWithPhotos: false,
+  });
+  const upAdv = (k,v) => setAdv(p => ({...p,[k]:v}));
+
+  const up = (k,v) => setF(p => ({...p,[k]:v}));
+
+  const buildQueryParams = (offset=0) => {
+    const p = new URLSearchParams();
+    p.set('category', f.category);
+    p.set('limit', '50');
+    p.set('offset', String(offset));
+    p.set('sort', f.sort);
+    if (f.q) p.set('q', f.q);
+    if (f.zone) p.set('state', f.zone);
+    if (f.operation) p.set('OPERATION', f.operation);
+    if (f.priceMin || f.priceMax) {
+      p.set('price', `${f.priceMin||'0'}-${f.priceMax||'*'}`);
+      p.set('CURRENCY', f.currency);
+    }
+    if (f.roomsMin || f.roomsMax) p.set('ROOMS', `${f.roomsMin||'*'}-${f.roomsMax||'*'}`);
+    if (f.bedsMin || f.bedsMax) p.set('BEDROOMS', `${f.bedsMin||'*'}-${f.bedsMax||'*'}`);
+    if (f.bathsMin) p.set('FULL_BATHROOMS', `${f.bathsMin}-*`);
+    if (f.areaMin || f.areaMax) p.set('TOTAL_AREA', `${f.areaMin||'*'}-${f.areaMax||'*'}`);
+    if (f.parkingMin) p.set('PARKING_LOTS', `${f.parkingMin}-*`);
+    return p.toString();
   };
 
-  const filteredAndSorted = useMemo(() => {
-    let filtered = properties
-      .filter(p => p.zone === selectedZone)
-      .filter(p => p.price >= priceRange.min && p.price <= priceRange.max)
-      .filter(p => p.area >= minArea);
+  // Smart search: try browser-direct ML API first (residential IP), then Vercel proxy fallback
+  const search = async (offset=0) => {
+    setLoading(true); setError(null);
+    try {
+      const qs = buildQueryParams(offset);
+      let data = null;
 
-    // Add scores
-    filtered = filtered.map(p => ({
-      ...p,
-      scoreData: computeScore(p, selectedZone)
-    }));
+      // 1. Try direct ML API from browser (works from residential IPs, no CORS issue for public search)
+      try {
+        const directUrl = `https://api.mercadolibre.com/sites/MLA/search?${qs}`;
+        console.log('1. Browser-direct ML API:', directUrl);
+        const res = await fetch(directUrl, { headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          const d = await res.json();
+          if (d.results && d.results.length >= 0) { data = d; console.log('\u2713 Direct OK -', d.results.length, 'results'); }
+        } else { console.log('\u2717 Direct:', res.status); }
+      } catch(e) { console.log('\u2717 Direct failed (CORS?):', e.message); }
 
-    // Sort
-    filtered.sort((a, b) => {
-      if (sortBy === 'score') return b.scoreData.score - a.scoreData.score;
-      if (sortBy === 'price') return a.price - b.price;
-      if (sortBy === 'area') return b.area - a.area;
-      return 0;
+      // 2. Fallback: Vercel proxy with Supabase token (São Paulo region)
+      if (!data) {
+        try {
+          const proxyUrl = `/api/ml-proxy?path=sites/MLA/search&${qs}`;
+          console.log('2. Vercel proxy:', proxyUrl);
+          const res = await fetch(proxyUrl);
+          if (res.ok) {
+            const d = await res.json();
+            if (d.results) { data = d; console.log('\u2713 Proxy OK -', d.results.length, 'results'); }
+          } else { const d = await res.json(); console.log('\u2717 Proxy:', res.status, d.message || d.error); }
+        } catch(e) { console.log('\u2717 Proxy failed:', e.message); }
+      }
+
+      // 3. Fallback: Supabase edge function proxy (EU region)
+      if (!data) {
+        try {
+          const sbUrl = `https://ysynltkotzizayjtoujf.supabase.co/functions/v1/meli-search?${qs}`;
+          console.log('3. Supabase proxy:', sbUrl);
+          const res = await fetch(sbUrl, { headers: { 'Accept': 'application/json' } });
+          if (res.ok) {
+            const d = await res.json();
+            if (d.results) { data = d; console.log('\u2713 Supabase OK -', d.results.length, 'results'); }
+          } else { console.log('\u2717 Supabase:', res.status); }
+        } catch(e) { console.log('\u2717 Supabase failed:', e.message); }
+      }
+
+      if (data && data.results) {
+        setResults(data.results);
+        setPaging(data.paging || { total:0, offset:0, limit:50 });
+        if (data.available_filters) setApiFilters(data.available_filters);
+      } else {
+        throw new Error('No se pudo conectar a Mercado Libre por ninguna via. Revisá la consola (F12) para detalles.');
+      }
+    } catch(e) { setError(e.message); setResults([]); }
+    setLoading(false);
+  };
+
+  const runDiag = async () => {
+    const diag = { browser_ip: 'checking...' };
+    // Check browser direct
+    try {
+      const r0 = await fetch('https://api.mercadolibre.com/sites/MLA/search?q=casa&limit=1');
+      diag.browser_direct = { status: r0.status, ok: r0.ok };
+      if (r0.ok) { const d = await r0.json(); diag.browser_direct.total = d.paging?.total; }
+      else { try { const d = await r0.json(); diag.browser_direct.error = d.message; } catch(e){} }
+    } catch(e) { diag.browser_direct = { error: e.message, note: 'CORS or network issue' }; }
+    // Check Vercel proxy
+    try {
+      const r1 = await fetch('/api/health');
+      diag.vercel_health = await r1.json();
+    } catch(e) { diag.vercel_health = { error: e.message }; }
+    try {
+      const r2 = await fetch('/api/ml-proxy?path=sites/MLA/search&q=casa&limit=1');
+      diag.vercel_proxy = { status: r2.status };
+      if (r2.ok) { const d = await r2.json(); diag.vercel_proxy.results = d.results?.length; }
+      else { try { const d = await r2.json(); diag.vercel_proxy.error = d.message || d.error; } catch(e){} }
+    } catch(e) { diag.vercel_proxy = { error: e.message }; }
+    // Check Supabase proxy
+    try {
+      const r3 = await fetch('https://ysynltkotzizayjtoujf.supabase.co/functions/v1/meli-search?q=casa&category=MLA1466&limit=1');
+      diag.supabase_proxy = { status: r3.status };
+      if (r3.ok) { const d = await r3.json(); diag.supabase_proxy.results = d.results?.length; }
+      else { try { const d = await r3.json(); diag.supabase_proxy.error = d.message || d.error; } catch(e){} }
+    } catch(e) { diag.supabase_proxy = { error: e.message }; }
+    alert(JSON.stringify(diag, null, 2));
+  };
+
+  const toggleFav = id => setFavs(p => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+
+  // Enriched results with computed datapoints
+  const enriched = useMemo(() => {
+    let items = results.map(r => {
+      const score = computeScore(r, profile);
+      const mkt = priceVsMarket(r);
+      const rent = estRentalYield(r);
+      const area = attrNum(r.attributes, 'TOTAL_AREA');
+      const pm2 = (area && r.price && r.currency_id === 'USD') ? Math.round(r.price / area) : null;
+      const parking = attrNum(r.attributes, 'PARKING_LOTS');
+      return { ...r, _score: score, _mkt: mkt, _rent: rent, _pm2: pm2, _area: area, _parking: parking };
     });
 
-    return filtered;
-  }, [properties, selectedZone, priceRange, minArea, sortBy]);
+    // Apply post-search advanced filters
+    if (adv.pm2Min) items = items.filter(r => r._pm2 && r._pm2 >= Number(adv.pm2Min));
+    if (adv.pm2Max) items = items.filter(r => r._pm2 && r._pm2 <= Number(adv.pm2Max));
+    if (adv.scoreMin) items = items.filter(r => r._score >= Number(adv.scoreMin));
+    if (adv.scoreMax) items = items.filter(r => r._score <= Number(adv.scoreMax));
+    if (adv.mktDiffMin) items = items.filter(r => r._mkt && r._mkt.diff >= Number(adv.mktDiffMin));
+    if (adv.mktDiffMax) items = items.filter(r => r._mkt && r._mkt.diff <= Number(adv.mktDiffMax));
+    if (adv.rentMin) items = items.filter(r => r._rent && r._rent.monthly >= Number(adv.rentMin));
+    if (adv.rentMax) items = items.filter(r => r._rent && r._rent.monthly <= Number(adv.rentMax));
+    if (adv.onlyBelowMarket) items = items.filter(r => r._mkt && r._mkt.diff < 0);
+    if (adv.onlyWithArea) items = items.filter(r => r._area);
+    if (adv.onlyWithParking) items = items.filter(r => r._parking && r._parking >= 1);
+    if (adv.onlyWithPhotos) items = items.filter(r => r.thumbnail);
 
-  const handleCompare = () => {
-    if (selected.length === 0) {
-      showToast('Please select properties to compare', 'error');
-      return;
+    if (showFavsOnly) items = items.filter(r => favs.has(r.id));
+
+    if (sortCol) {
+      items.sort((a,b) => {
+        let va, vb;
+        switch(sortCol) {
+          case 'score': va=a._score; vb=b._score; break;
+          case 'price': va=a.price||0; vb=b.price||0; break;
+          case 'pm2': va=a._pm2||99999; vb=b._pm2||99999; break;
+          case 'area': va=a._area||0; vb=b._area||0; break;
+          case 'rent': va=a._rent?.monthly||0; vb=b._rent?.monthly||0; break;
+          case 'mkt': va=a._mkt?.diff||0; vb=b._mkt?.diff||0; break;
+          default: va=0; vb=0;
+        }
+        return sortDir === 'asc' ? va-vb : vb-va;
+      });
     }
+    return items;
+  }, [results, favs, showFavsOnly, sortCol, sortDir, adv]);
 
-    const compareData = selected.map(id => 
-      filteredAndSorted.find(p => p.id === id)
-    ).filter(Boolean);
-
-    setModalContent(compareData);
-    setShowModal(true);
+  const toggleSort = (col) => {
+    if (sortCol === col) setSortDir(d => d==='asc'?'desc':'asc');
+    else { setSortCol(col); setSortDir('desc'); }
   };
 
-  const toggleSelect = (id) => {
-    setSelected(prev => 
-      prev.includes(id) 
-        ? prev.filter(x => x !== id)
-        : [...prev, id]
-    );
+  // Stats
+  const usdItems = enriched.filter(r => r.currency_id === 'USD' && r.price);
+  const avgPrice = usdItems.length ? Math.round(usdItems.reduce((s,r)=>s+r.price,0)/usdItems.length) : 0;
+  const avgPm2 = usdItems.filter(r=>r._pm2).length ? Math.round(usdItems.filter(r=>r._pm2).reduce((s,r)=>s+r._pm2,0)/usdItems.filter(r=>r._pm2).length) : 0;
+  const avgScore = enriched.length ? Math.round(enriched.reduce((s,r)=>s+r._score,0)/enriched.length) : 0;
+  const belowMarket = enriched.filter(r => r._mkt && r._mkt.diff < 0).length;
+
+  const exportCSV = (items) => {
+    const rows = [['Titulo','Precio','Moneda','Oferta_'+discount+'%','USD/m2','vs_Mercado','Score','Renta_Est_Mensual','Ambientes','Dormitorios','Banos','m2','Cochera','Ubicacion','Link']];
+    items.forEach(r => {
+      const offer = r.price ? Math.round(r.price*(1-discount/100)) : '';
+      rows.push([
+        `"${(r.title||'').replace(/"/g,'""')}"`, r.price||'', r.currency_id||'', offer,
+        r._pm2||'', r._mkt ? r._mkt.diff+'%' : '', r._score,
+        r._rent ? r._rent.monthly : '',
+        attr(r.attributes,'ROOMS')||'', attr(r.attributes,'BEDROOMS')||'',
+        attr(r.attributes,'FULL_BATHROOMS')||'', attr(r.attributes,'TOTAL_AREA')||'',
+        attr(r.attributes,'PARKING_LOTS')||'',
+        `"${r.address?.city_name||''}, ${r.address?.state_name||}"`, r.permalink||''
+      ]);
+    });
+    const blob = new Blob([rows.map(r=>r.join(',')).join('\n')], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `meli_inmuebles_${new Date().toISOString().slice(0,10)}.csv`; a.click();
   };
 
-  const handleExport = () => {
-    exportCSV(filteredAndSorted, selectedZone);
-    showToast('CSV exported successfully');
-  };
-
-  const getScoreBadgeClass = (score) => {
-    if (score >= 80) return 'score-excellent';
-    if (score >= 60) return 'score-good';
-    if (score >= 40) return 'score-fair';
-    return 'score-poor';
-  };
+  const totalPages = Math.ceil(paging.total / paging.limit);
+  const curPage = Math.floor(paging.offset / paging.limit) + 1;
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Header */}
-      <div className="header">
-        <div className="header-left">
-          <i className="fas fa-building" style={{ fontSize: '20px' }}></i>
-          <div>
-            <h1>MELI Search</h1>
-            <div className="sub">Smart Property Search & Analysis</div>
+  <div>
+    <div className="header">
+      <div className="header-left">
+        <h1><i className="fas fa-building"></i> MELI Search</h1>
+        <span className="sub">API directa de Mercado Libre &middot; Filtros sin limites</span>
+      </div>
+      <div className="header-right">
+        <span className="badge"><i className="fas fa-user"></i> {profile.name}</span>
+        <span className="badge"><i className="fas fa-map-pin"></i> CABA</span>
+        <span className="badge"><i className="fas fa-dollar-sign"></i> {fmt(profile.maxPrice)}</span>
+      </div>
+    </div>
+
+    <div className="layout">
+      {/* ─── SIDEBAR ─── */}
+      <div className="sidebar">
+        <div className="profile-box">
+          <h4><i className="fas fa-crosshairs"></i> Perfil de busqueda</h4>
+          <p>
+            <i className="fas fa-home"></i> {profile.type} en {profile.op}<br/>
+            <i className="fas fa-map-marker-alt"></i> {profile.loc}<br/>
+            <i className="fas fa-wallet"></i> Hasta {fmt(profile.maxPrice)}<br/>
+            <span style={{marginTop:4,display:'block'}}>
+              <span className="tag">Score inteligente</span>
+              <span className="tag">USD/m2</span>
+              <span className="tag">vs Mercado</span>
+              <span className="tag">Renta est.</span>
+            </span>
+          </p>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-search"></i> Busqueda libre</div>
+          <div className="row full"><input placeholder="pileta, jardin, luminoso, reciclado..." value={f.q} onChange={e=>up('q',e.target.value)} onKeyDown={e=>e.key==='Enter'&&search(0)} /></div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-building"></i> Tipo / Operacion</div>
+          <div className="row full">
+            <select value={f.category} onChange={e=>up('category',e.target.value)}>
+              {Object.entries(CATEGORIES).map(([k,v])=><option key={k} value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div className="row full">
+            <select value={f.operation} onChange={e=>up('operation',e.target.value)}>
+              {Object.entries(OPERATIONS).map(([k,v])=><option key={k} value={k}>{v}</option>)}
+            </select>
           </div>
         </div>
-        <div className="header-right">
-          <span className="badge">ml-proxy Active</span>
-          <span className="badge">browser-direct Mode</span>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-map-marker-alt"></i> Ubicacion</div>
+          <div className="row full">
+            <select value={f.zone} onChange={e=>up('zone',e.target.value)}>
+              {Object.entries(ZONES).map(([k,v])=><option key={k} value={k}>{v}</option>)}
+            </select>
+          </div>
         </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-dollar-sign"></i> Precio</div>
+          <div className="row full">
+            <select value={f.currency} onChange={e=>up('currency',e.target.value)}>
+              <option value="USD">Dolares (USD)</option>
+              <option value="ARS">Pesos (ARS)</option>
+            </select>
+          </div>
+          <div className="row">
+            <input type="number" placeholder="Minimo" value={f.priceMin} onChange={e=>up('priceMin',e.target.value)} />
+            <input type="number" placeholder="Maximo" value={f.priceMax} onChange={e=>up('priceMax',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-door-open"></i> Ambientes / Dormitorios</div>
+          <div className="row">
+            <input type="number" placeholder="Amb min" value={f.roomsMin} onChange={e=>up('roomsMin',e.target.value)} />
+            <input type="number" placeholder="Amb max" value={f.roomsMax} onChange={e=>up('roomsMax',e.target.value)} />
+          </div>
+          <div className="row">
+            <input type="number" placeholder="Dorm min" value={f.bedsMin} onChange={e=>up('bedsMin',e.target.value)} />
+            <input type="number" placeholder="Dorm max" value={f.bedsMax} onChange={e=>up('bedsMax',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-bath"></i> Banos / Cochera / m2</div>
+          <div className="row">
+            <input type="number" placeholder="Banos min" value={f.bathsMin} onChange={e=>up('bathsMin',e.target.value)} />
+            <input type="number" placeholder="Cochera min" value={f.parkingMin} onChange={e=>up('parkingMin',e.target.value)} />
+          </div>
+          <div className="row">
+            <input type="number" placeholder="m2 min" value={f.areaMin} onChange={e=>up('areaMin',e.target.value)} />
+            <input type="number" placeholder="m2 max" value={f.areaMax} onChange={e=>up('areaMax',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-sort"></i> Ordenar</div>
+          <div className="row full">
+            <select value={f.sort} onChange={e=>up('sort',e.target.value)}>
+              {Object.entries(SORTS).map(([k,v])=><option key={k} value={k}>{v}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {results.length > 0 && (<>
+        <div style={{borderTop:'1px solid var(--border)',margin:'12px 0',paddingTop:12}}>
+          <div className="section-title" style={{color:'var(--purple)'}}><i className="fas fa-flask"></i> Filtros Avanzados (post-busqueda)</div>
+          <div style={{fontSize:10,color:'var(--muted)',marginBottom:8}}>Filtran sobre los {results.length} resultados ya cargados</div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-chart-line"></i> USD / m2</div>
+          <div className="row">
+            <input type="number" placeholder="Min $/m2" value={adv.pm2Min} onChange={e=>upAdv('pm2Min',e.target.value)} />
+            <input type="number" placeholder="Max $/m2" value={adv.pm2Max} onChange={e=>upAdv('pm2Max',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-star"></i> Score</div>
+          <div className="row">
+            <input type="number" placeholder="Min score" value={adv.scoreMin} onChange={e=>upAdv('scoreMin',e.target.value)} min="0" max="100" />
+            <input type="number" placeholder="Max score" value={adv.scoreMax} onChange={e=>upAdv('scoreMax',e.target.value)} min="0" max="100" />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-balance-scale"></i> vs Mercado (%)</div>
+          <div className="row">
+            <input type="number" placeholder="Min % (ej: -30)" value={adv.mktDiffMin} onChange={e=>upAdv('mktDiffMin',e.target.value)} />
+            <input type="number" placeholder="Max % (ej: 10)" value={adv.mktDiffMax} onChange={e=>upAdv('mktDiffMax',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-piggy-bank"></i> Renta Est. (USD/mes)</div>
+          <div className="row">
+            <input type="number" placeholder="Min USD/mes" value={adv.rentMin} onChange={e=>upAdv('rentMin',e.target.value)} />
+            <input type="number" placeholder="Max USD/mes" value={adv.rentMax} onChange={e=>upAdv('rentMax',e.target.value)} />
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title"><i className="fas fa-filter"></i> Filtros rapidos</div>
+          <div style={{display:'flex',flexDirection:'column',gap:6}}>
+            <label style={{fontSize:11,display:'flex',alignItems:'center',gap:6,cursor:'pointer'}}>
+              <input type="checkbox" checked={adv.onlyBelowMarket} onChange={e=>upAdv('onlyBelowMarket',e.target.checked)} />
+              Solo bajo precio de mercado
+            </label>
+            <label style={{fontSize:11,display:'flex',alignItems:'center',gap:6,cursor:'pointer'}}>
+              <input type="checkbox" checked={adv.onlyWithArea} onChange={e=>upAdv('onlyWithArea',e.target.checked)} />
+              Solo con m2 informados
+            </label>
+            <label style={{fontSize:11,display:'flex',alignItems:'center',gap:6,cursor:'pointer'}}>
+              <input type="checkbox" checked={adv.onlyWithParking} onChange={e=>upAdv('onlyWithParking',e.target.checked)} />
+              Solo con cochera
+            </label>
+            <label style={{fontSize:11,display:'flex',alignItems:'center',gap:6,cursor:'pointer'}}>
+              <input type="checkbox" checked={adv.onlyWithPhotos} onChange={e=>upAdv('onlyWithPhotos',e.target.checked)} />
+              Solo con fotos
+            </label>
+          </div>
+        </div>
+
+        <button className="btn btn-outline" onClick={()=>setAdv({pm2Min:'',pm2Max:'',scoreMin:'',scoreMax:'',mktDiffMin:'',mktDiffMax:'',rentMin:'',rentMax:'',onlyBelowMarket:false,onlyWithArea:false,onlyWithParking:false,onlyWithPhotos:false})} style={{marginBottom:8}}>
+          <i className="fas fa-eraser"></i> Limpiar filtros avanzados
+        </button>
+        </>)}
+
+        <button className="btn btn-primary" onClick={()=>search(0)} disabled={loading}>
+          {loading ? <><i className="fas fa-spinner fa-spin"></i> Buscando...</> : <><i className="fas fa-search"></i> Buscar</>}
+        </button>
+        <button className="btn btn-outline" onClick={()=>setF({
+          category:'MLA1466',operation:'242075',zone:'TUxBUENBUGw3M2E1',
+          priceMin:'',priceMax:'150000',currency:'USD',roomsMin:'',roomsMax:'',
+          bedsMin:'',bedsMax:'',bathsMin:'',areaMin:'',areaMax:'',parkingMin:'',
+          sort:'price_asc',q:'',
+        })}><i className="fas fa-undo"></i> Reset</button>
       </div>
 
-      <div className="layout">
-        {/* Sidebar */}
-        <div className="sidebar">
-          <div className="section">
-            <div className="section-title">Zones</div>
-            <div className="zone-selector">
-              {Object.keys(ZONE_BENCHMARKS).map(zone => (
-                <button
-                  key={zone}
-                  className={`zone-btn ${selectedZone === zone ? 'active' : ''}`}
-                  onClick={() => setSelectedZone(zone)}
-                >
-                  {zone}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="section">
-            <div className="section-title">Price Range (USD)</div>
-            <div className="price-input-group">
-              <input
-                type="number"
-                placeholder="Min"
-                value={priceRange.min}
-                onChange={(e) => setPriceRange({...priceRange, min: parseInt(e.target.value) || 0})}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={priceRange.max}
-                onChange={(e) => setPriceRange({...priceRange, max: parseInt(e.target.value) || 500000})}
-              />
-            </div>
-          </div>
-
-          <div className="section">
-            <div className="section-title">Minimum Area (m²)</div>
-            <input
-              type="number"
-              placeholder="0"
-              value={minArea}
-              onChange={(e) => setMinArea(parseInt(e.target.value) || 0)}
-              style={{ width: '100%', padding: '8px', background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '6px' }}
-            />
-          </div>
-
-          <div className="section">
-            <div className="section-title">Sort By</div>
-            <div className="zone-selector">
-              {['score', 'price', 'area'].map(option => (
-                <button
-                  key={option}
-                  className={`zone-btn ${sortBy === option ? 'active' : ''}`}
-                  onClick={() => setSortBy(option)}
-                  style={{ flex: 1, textTransform: 'capitalize' }}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="section" style={{ marginTop: '16px' }}>
-            <button className="btn btn-primary" style={{ width: '100%', marginBottom: '8px' }} onClick={handleCompare}>
-              <i className="fas fa-exchange-alt"></i> Compare Selected
-            </button>
-            <button className="btn btn-secondary" style={{ width: '100%' }} onClick={handleExport}>
-              <i className="fas fa-download"></i> Export CSV
-            </button>
-          </div>
-
-          <div className="info-banner">
-            <i className="fas fa-info-circle"></i> Smart scoring analyzes price vs market, property features, and location quality.
-          </div>
+      {/* ─── MAIN ─── */}
+      <div className="main">
+        <div style={{background:'rgba(0,200,83,.08)',border:'1px solid var(--green)',padding:'8px 14px',borderRadius:6,marginBottom:14,fontSize:12,color:'var(--green)',display:'flex',alignItems:'center',gap:8}}>
+          <i className="fas fa-check-circle"></i> Conectado via API
         </div>
 
-        {/* Main Content */}
-        <div className="main">
-          <div className="action-bar">
-            <span style={{ fontSize: '12px', color: 'var(--muted)' }}>
-              {filteredAndSorted.length} properties found in {selectedZone}
-            </span>
-            <div>
-              {selected.length > 0 && (
-                <span style={{ fontSize: '12px', color: 'var(--yellow)', marginRight: '8px' }}>
-                  {selected.length} selected
-                </span>
-              )}
-            </div>
+        {error && <div className="error-box">
+          <i className="fas fa-exclamation-circle"></i> {error}
+          <div style={{marginTop:8}}>
+            <button onClick={runDiag} style={{background:'var(--red)',color:'#fff',border:'none',padding:'6px 12px',borderRadius:4,cursor:'pointer',fontSize:12,marginRight:8}}>
+              <i className="fas fa-stethoscope"></i> Diagnostico
+            </button>
+            <span style={{fontSize:11,color:'var(--muted)'}}>Revisa la consola del navegador para mas detalles</span>
+          </div>
+        </div>}
+
+        {paging.total > 0 && <>
+          <div className="stats">
+            <div className="stat"><div className="label">Resultados API</div><div className="val y">{paging.total.toLocaleString()}</div>{enriched.length !== results.length && <div className="sub" style={{color:'var(--purple)'}}>{enriched.length} tras filtros avanzados</div>}</div>
+            <div className="stat"><div className="label">Precio promedio</div><div className="val">{fmt(avgPrice)}</div><div className="sub">Oferta: {fmt(Math.round(avgPrice*(1-discount/100)))}</div></div>
+            <div className="stat"><div className="label">USD/m2 promedio</div><div className="val b">{avgPm2 ? `$${avgPm2}` : '-'}</div></div>
+            <div className="stat"><div className="label">Score promedio</div><div className="val" style={{color:scoreColor(avgScore)}}>{avgScore}/100</div></div>
+            <div className="stat"><div className="label">Bajo mercado</div><div className="val g">{belowMarket}</div><div className="sub">de {enriched.length} visibles</div></div>
+            <div className="stat"><div className="label">Favoritos</div><div className="val r">{favs.size}</div></div>
           </div>
 
-          {filteredAndSorted.length === 0 ? (
-            <div className="empty-state">
-              <i className="fas fa-search"></i>
-              <p>No properties found matching your criteria</p>
-            </div>
-          ) : (
-            <div className="grid">
-              {filteredAndSorted.map(property => {
-                const priceAnalysis = calculatePriceVsMarket(property, selectedZone);
-                const isSelected = selected.includes(property.id);
-                
-                return (
-                  <div key={property.id} className={`card card-score ${isSelected ? 'selected' : ''}`} style={{ 
-                    border: isSelected ? '2px solid var(--yellow)' : '1px solid var(--border)',
-                    opacity: isSelected ? 1 : 0.9 
-                  }}>
-                    <div className="card-header">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => toggleSelect(property.id)}
-                        style={{ marginRight: '8px', cursor: 'pointer' }}
-                      />
-                      <h3 style={{ display: 'inline-block' }}>{property.title}</h3>
-                      <div className={`score-badge ${getScoreBadgeClass(property.scoreData.score)}`}>
-                        Score: {property.scoreData.score}
-                      </div>
+          <div className="toolbar">
+            <button className={`tbtn ${view==='grid'?'active':''}`} onClick={()=>setView('grid')}><i className="fas fa-th"></i> Grid</button>
+            <button className={`tbtn ${view==='table'?'active':''}`} onClick={()=>setView('table')}><i className="fas fa-list"></i> Tabla</button>
+            <button className={`tbtn ${showFavsOnly?'active':''}`} onClick={()=>setShowFavsOnly(p=>!p)}><i className="fas fa-heart"></i> Solo favs</button>
+            <div className="spacer"></div>
+            <button className="tbtn" onClick={()=>toggleSort('score')}><i className="fas fa-star"></i> Score {sortCol==='score'?(sortDir==='asc'?'\u2191':'\u2193'):''}</button>
+            <button className="tbtn" onClick={()=>toggleSort('pm2')}><i className="fas fa-ruler"></i> USD/m2 {sortCol==='pm2'?(sortDir==='asc'?'\u2191':'\u2193'):''}</button>
+            <button className="tbtn" onClick={()=>toggleSort('mkt')}><i className="fas fa-balance-scale"></i> vs Mkt {sortCol==='mkt'?(sortDir==='asc'?'\u2191':'\u2193'):''}</button>
+            <button className="tbtn" onClick={()=>toggleSort('rent')}><i className="fas fa-piggy-bank"></i> Renta {sortCol==='rent'?(sortDir==='asc'?'\u2191':'\u2193'):''}</button>
+            <button className="tbtn" onClick={()=>exportCSV(enriched)}><i className="fas fa-download"></i> CSV</button>
+            {favs.size > 0 && <button className="tbtn" onClick={()=>exportCSV(enriched.filter(r=>favs.has(r.id)))}><i className="fas fa-heart"></i> CSV Favs</button>}
+            <span className="result-count">{enriched.length} propiedades</span>
+          </div>
+        </>}
+
+        {loading && <div className="loading"><div className="spinner"></div>Consultando API de Mercado Libre...</div>}
+
+        {!loading && results.length === 0 && !error && (
+          <div className="empty">
+            <i className="fas fa-city"></i>
+            <h2 style={{color:'var(--text)',marginBottom:8}}>MELI Search</h2>
+            <p>Configura los filtros y hace click en Buscar.<br/>Los datos vienen directo de la API de Mercado Libre, sin limites del cliente web.</p>
+            <p style={{marginTop:16,fontSize:12}}>
+              <strong>Datapoints extra:</strong> Score de match con tu perfil, USD/m2,<br/>
+              comparativa vs mercado, estimacion de renta, y mas.
+            </p>
+          </div>
+        )}
+
+        {/* ─── GRID VIEW ─── */}
+        {!loading && enriched.length > 0 && view === 'grid' && (
+          <div className="grid">
+            {enriched.map(item => {
+              const offer = item.price ? Math.round(item.price*(1-discount/100)) : null;
+              const rooms = attr(item.attributes,'ROOMS');
+              const beds = attr(item.attributes,'BEDROOMS');
+              const baths = attr(item.attributes,'FULL_BATHROOMS');
+              const area = attr(item.attributes,'TOTAL_AREA');
+              const parking = attr(item.attributes,'PARKING_LOTS');
+              const isFav = favs.has(item.id);
+              const sb = scoreBadge(item._score);
+
+              return (
+                <div className="card" key={item.id}>
+                  <div style={{position:'relative'}}>
+                    <img className="card-img" loading="lazy"
+                      src={item.thumbnail?.replace('http:','https:').replace('-I.jpg','-O.jpg')}
+                      onError={e=>e.target.src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180"><rect fill="%231a1a3e" width="400" height="180"/><text fill="%23555" x="200" y="95" text-anchor="middle" font-size="14">Sin imagen</text></svg>'} />
+                    <div className="card-badges">
+                      {sb && <span className={`card-badge ${sb.cls}`}>{sb.label} {item._score}</span>}
+                      {item._mkt && item._mkt.diff < -15 && <span className="card-badge cb-cheap">-{Math.abs(item._mkt.diff)}% vs mercado</span>}
+                      {item._mkt && item._mkt.diff > 20 && <span className="card-badge cb-expensive">+{item._mkt.diff}% vs mercado</span>}
+                    </div>
+                    <button className={`card-fav ${isFav?'active':''}`} onClick={()=>toggleFav(item.id)}>
+                      <i className={isFav?'fas fa-heart':'far fa-heart'}></i>
+                    </button>
+                  </div>
+                  <div className="card-body">
+                    <div className="card-title">{item.title}</div>
+                    <div className="card-loc"><i className="fas fa-map-marker-alt"></i> {item.address?.city_name}{item.address?.state_name?`, ${item.address.state_name}`:''}</div>
+
+                    <div className="card-prices">
+                      <div className="price-main">{fmt(item.price, item.currency_id)}</div>
+                      {item._pm2 && <div className="price-m2">U$D {item._pm2}/m2 {item._mkt ? `(${item._mkt.diff>0?'+':''}${item._mkt.diff}% vs zona)` : ''}</div>}
+                      {offer && <div className="price-offer"><i className="fas fa-hand-holding-usd"></i> Oferta -{discount}%: {fmt(offer, item.currency_id)}</div>}
                     </div>
 
-                    <div className="card-body">
-                      <div className="price-display">
-                        ${property.price.toLocaleString()}
-                      </div>
-
-                      <div className="metrics">
-                        <div className="metric">
-                          <div className="metric-label">Area</div>
-                          <div className="metric-value">{property.area} m²</div>
-                        </div>
-                        <div className="metric">
-                          <div className="metric-label">USD/m²</div>
-                          <div className="metric-value price-m2">${(property.price / property.area).toFixed(0)}</div>
-                        </div>
-                        <div className="metric">
-                          <div className="metric-label">Rooms</div>
-                          <div className="metric-value">{property.rooms}</div>
-                        </div>
-                        <div className="metric">
-                          <div className="metric-label">Parking</div>
-                          <div className="metric-value">{property.parking ? 'Yes' : 'No'}</div>
-                        </div>
-                      </div>
-
-                      {priceAnalysis && (
-                        <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '8px', padding: '8px', background: 'var(--surface)', borderRadius: '4px' }}>
-                          <div>Your Price/m²: <strong>${priceAnalysis.yourPrice}</strong></div>
-                          <div>Market Avg/m²: <strong>${priceAnalysis.marketPrice}</strong></div>
-                          <div className="price-range">
-                            {priceAnalysis.difference > 0 ? (
-                              <strong style={{ color: 'var(--green)' }}>✓ {priceAnalysis.difference}% below market</strong>
-                            ) : (
-                              <strong style={{ color: 'var(--orange)' }}>✗ {Math.abs(priceAnalysis.difference)}% above market</strong>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '8px' }}>
-                        <strong>Why this score:</strong>
-                        <ul style={{ marginLeft: '16px', marginTop: '4px' }}>
-                          {property.scoreData.factors.slice(0, 3).map((factor, i) => (
-                            <li key={i}>{factor}</li>
-                          ))}
-                        </ul>
-                      </div>
+                    <div className="card-chips">
+                      {rooms && <span className="chip"><i className="fas fa-door-open"></i>{rooms} amb</span>}
+                      {beds && <span className="chip"><i className="fas fa-bed"></i>{beds} dorm</span>}
+                      {baths && <span className="chip"><i className="fas fa-bath"></i>{baths}</span>}
+                      {area && <span className="chip"><i className="fas fa-ruler-combined"></i>{area} m2</span>}
+                      {parking && <span className="chip"><i className="fas fa-car"></i>{parking}</span>}
                     </div>
 
-                    <div className="card-footer">
-                      <button className="btn btn-secondary" style={{ flex: 1 }}>View Details</button>
+                    <div className="card-meta">
+                      {item._rent && <div className="meta-item">Renta est: <span>U$D {item._rent.monthly}/mes</span></div>}
+                      {item._rent && <div className="meta-item">Yield: <span>{item._rent.annual}% anual</span></div>}
+                      {item._mkt && <div className="meta-item">Ref zona: <span>U$D {item._mkt.bench}/m2</span></div>}
+                    </div>
+
+                    <div className="card-score">
+                      <span style={{fontSize:10,color:'var(--muted)'}}>Match</span>
+                      <div className="score-bar"><div className="score-fill" style={{width:`${item._score}%`,background:scoreColor(item._score)}}></div></div>
+                      <span className="score-label" style={{color:scoreColor(item._score)}}>{item._score}</span>
+                    </div>
+
+                    <div className="card-actions">
+                      <a className="a-view" href={item.permalink} target="_blank" rel="noopener"><i className="fas fa-external-link-alt"></i> Ver en ML</a>
+                      <a className="a-contact" href={item.permalink} target="_blank" rel="noopener"><i className="fas fa-comment-dollar"></i> Contactar</a>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-      {/* Comparison Modal */}
-      {showModal && modalContent && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Property Comparison</h2>
-              <button className="close-btn" onClick={() => setShowModal(false)}>✕</button>
-            </div>
-
-            <table className="compare-table">
-              <thead>
-                <tr>
-                  <th>Property</th>
-                  {modalContent.map(p => <th key={p.id}>{p.title}</th>)}
-                </tr>
-              </thead>
+        {/* ─── TABLE VIEW ─── */}
+        {!loading && enriched.length > 0 && view === 'table' && (
+          <div style={{overflowX:'auto'}}>
+            <table className="tbl">
+              <thead><tr>
+                <th style={{width:30}}><i className="fas fa-heart" style={{color:'var(--red)'}}></i></th>
+                <th onClick={()=>toggleSort('score')}>Score {sortCol==='score'?(sortDir==='asc'?'\u2191':'\u2193'):''}</th>
+                <th>Propiedad</th>
+                <th>Ubicacion</th>
+                <th onClick={()=>toggleSort('price')}>Precio {sortCol==='price'?(sortDir==='asc'?'\u2191':'\u2193'):''}</th>
+                <th>Oferta -{discount}%</th>
+                <th onClick={()=>toggleSort('pm2')}>USD/m2 {sortCol==='pm2'?(sortDir==='asc'?'\u2191':'\u2193'):''}</th>
+                <th>vs Zona</th>
+                <th>Renta est.</th>
+                <th>Amb</th>
+                <th>Dorm</th>
+                <th onClick={()=>toggleSort('area')}>m2 {sortCol==='area'?(sortDir==='asc'?'\u2191':'\u2193'):''}</th>
+                <th>Link</th>
+              </tr></thead>
               <tbody>
-                <tr>
-                  <td>Price</td>
-                  {modalContent.map(p => <td key={p.id}>${p.price.toLocaleString()}</td>)}
-                </tr>
-                <tr>
-                  <td>Area (m²)</td>
-                  {modalContent.map(p => <td key={p.id}>{p.area}</td>)}
-                </tr>
-                <tr>
-                  <td>USD/m²</td>
-                  {modalContent.map(p => <td key={p.id}>${(p.price / p.area).toFixed(0)}</td>)}
-                </tr>
-                <tr>
-                  <td>Rooms</td>
-                  {modalContent.map(p => <td key={p.id}>{p.rooms}</td>)}
-                </tr>
-                <tr>
-                  <td>Parking</td>
-                  {modalContent.map(p => <td key={p.id}>{p.parking ? 'Yes' : 'No'}</td>)}
-                </tr>
-                <tr>
-                  <td>Score</td>
-                  {modalContent.map(p => (
-                    <td key={p.id} style={{ fontWeight: 700, color: 'var(--yellow)' }}>
-                      {p.scoreData.score}
-                    </td>
-                  ))}
-                </tr>
+                {enriched.map(r => (
+                  <tr key={r.id}>
+                    <td><button onClick={()=>toggleFav(r.id)} style={{background:'none',border:'none',cursor:'pointer',color:favs.has(r.id)?'var(--red)':'#444',fontSize:14}}><i className={favs.has(r.id)?'fas fa-heart':'far fa-heart'}></i></button></td>
+                    <td><span style={{color:scoreColor(r._score),fontWeight:700}}>{r._score}</span></td>
+                    <td style={{maxWidth:220,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.title}</td>
+                    <td>{r.address?.city_name||'-'}</td>
+                    <td className="prc">{fmt(r.price,r.currency_id)}</td>
+                    <td className="ofr">{r.price?fmt(Math.round(r.price*(1-discount/100)),r.currency_id):'-'}</td>
+                    <td>{r._pm2?`$${r._pm2}`:'-'}</td>
+                    <td style={{color:r._mkt?(r._mkt.diff<0?'var(--green)':'var(--red)'):'var(--muted)'}}>{r._mkt?`${r._mkt.diff>0?'+':''}${r._mkt.diff}%`:'-'}</td>
+                    <td>{r._rent?`$${r._rent.monthly}/m`:'-'}</td>
+                    <td>{attr(r.attributes,'ROOMS')||'-'}</td>
+                    <td>{attr(r.attributes,'BEDROOMS')||'-'}</td>
+                    <td>{attr(r.attributes,'TOTAL_AREA')||'-'}</td>
+                    <td><a href={r.permalink} target="_blank" rel="noopener" style={{color:'var(--blue)'}}>Ver <i className="fas fa-external-link-alt" style={{fontSize:9}}></i></a></td>
+                  </tr>
+                ))}
               </tbody>
             </table>
-
-            <div style={{ marginTop: '16px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-              <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Toast Notification */}
-      {toast && (
-        <div className={`toast ${toast.type}`}>
-          {toast.message}
-        </div>
-      )}
+        {!loading && totalPages > 1 && (
+          <div className="pagination">
+            <button disabled={curPage<=1} onClick={()=>search(paging.offset-paging.limit)}><i className="fas fa-chevron-left"></i></button>
+            <button className="active" disabled>Pag {curPage} / {totalPages}</button>
+            <button disabled={curPage>=totalPages} onClick={()=>search(paging.offset+paging.limit)}><i className="fas fa-chevron-right"></i></button>
+          </div>
+        )}
+      </div>
     </div>
+  </div>
   );
 }
 
