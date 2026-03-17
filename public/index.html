@@ -135,6 +135,7 @@ table.tbl { width:100%; border-collapse:collapse; font-size:12px; }
 const { useState, useEffect, useCallback, useMemo } = React;
 
 const API = '';
+const CF_WORKER = 'https://meli-search.proyectos-27d.workers.dev';
 
 const CATEGORIES = {
   MLA1459:'Todos los Inmuebles', MLA1466:'Casas', MLA1472:'Departamentos',
@@ -258,6 +259,7 @@ function App() {
   const [sortDir, setSortDir] = useState('asc');
   const [showFavsOnly, setShowFavsOnly] = useState(false);
   const [apiFilters, setApiFilters] = useState([]);
+  const [searchVia, setSearchVia] = useState(null);
 
   const profile = { name:'Nico', loc:'Bacacay 1757, CABA', maxPrice:150000, op:'Compra', type:'Casa' };
 
@@ -299,43 +301,63 @@ function App() {
   };
 
   const search = async (offset=0) => {
-    setLoading(true); setError(null);
+    setLoading(true); setError(null); setSearchVia(null);
     try {
       const qs = buildQueryParams(offset);
       let data = null;
-      let mlToken = null;
-      try { const tkR = await fetch('/api/get-token'); if (tkR.ok) { const tk = await tkR.json(); if (!tk.expired) mlToken = tk.access_token; console.log('Token:', mlToken ? 'ok' : 'expired'); } } catch(e) { console.log('Token fetch:', e.message); }
+
+      // 1. Cloudflare Worker proxy (primary - bypasses ML IP blocking)
       try {
-        const directUrl = 'https://api.mercadolibre.com/sites/MLA/search?' + qs + (mlToken ? '&access_token=' + encodeURIComponent(mlToken) : '');
-        console.log('1. Browser-direct' + (mlToken ? ' +token' : '') + ':', directUrl);
-        const res = await fetch(directUrl, { headers: { 'Accept': 'application/json' }, referrerPolicy: 'no-referrer' });
+        const cfUrl = CF_WORKER + '/?path=sites/MLA/search&' + qs;
+        console.log('1. CF Worker proxy:', cfUrl);
+        const res = await fetch(cfUrl, { headers: { 'Accept': 'application/json' } });
         if (res.ok) {
           const d = await res.json();
-          if (d.results && d.results.length >= 0) { data = d; console.log('Direct OK -', d.results.length, 'results'); }
-        } else { console.log('Direct:', res.status); }
-      } catch(e) { console.log('Direct failed:', e.message); }
+          if (d.results && d.results.length >= 0) { data = d; setSearchVia('Cloudflare Worker'); console.log('CF Worker OK -', d.results.length, 'results'); }
+        } else { console.log('CF Worker:', res.status); }
+      } catch(e) { console.log('CF Worker failed:', e.message); }
+
+      // 2. Browser-direct with token (fallback)
+      if (!data) {
+        let mlToken = null;
+        try { const tkR = await fetch('/api/get-token'); if (tkR.ok) { const tk = await tkR.json(); if (!tk.expired) mlToken = tk.access_token; console.log('Token:', mlToken ? 'ok' : 'expired'); } } catch(e) { console.log('Token fetch:', e.message); }
+        try {
+          const directUrl = 'https://api.mercadolibre.com/sites/MLA/search?' + qs + (mlToken ? '&access_token=' + encodeURIComponent(mlToken) : '');
+          console.log('2. Browser-direct' + (mlToken ? ' +token' : '') + ':', directUrl);
+          const res = await fetch(directUrl, { headers: { 'Accept': 'application/json' }, referrerPolicy: 'no-referrer' });
+          if (res.ok) {
+            const d = await res.json();
+            if (d.results && d.results.length >= 0) { data = d; setSearchVia('Browser directo'); console.log('Direct OK -', d.results.length, 'results'); }
+          } else { console.log('Direct:', res.status); }
+        } catch(e) { console.log('Direct failed:', e.message); }
+      }
+
+      // 3. Vercel proxy (fallback)
       if (!data) {
         try {
           const proxyUrl = '/api/ml-proxy?path=sites/MLA/search&' + qs;
-          console.log('2. Vercel proxy:', proxyUrl);
+          console.log('3. Vercel proxy:', proxyUrl);
           const res = await fetch(proxyUrl);
           if (res.ok) {
             const d = await res.json();
-            if (d.results) { data = d; console.log('Proxy OK -', d.results.length, 'results'); }
+            if (d.results) { data = d; setSearchVia('Vercel proxy'); console.log('Proxy OK -', d.results.length, 'results'); }
           } else { const d = await res.json(); console.log('Proxy:', res.status, d.message || d.error); }
         } catch(e) { console.log('Proxy failed:', e.message); }
       }
+
+      // 4. Supabase proxy (fallback)
       if (!data) {
         try {
           const sbUrl = 'https://ysynltkotzizayjtoujf.supabase.co/functions/v1/meli-search?path=sites/MLA/search&' + qs;
-          console.log('3. Supabase proxy:', sbUrl);
+          console.log('4. Supabase proxy:', sbUrl);
           const res = await fetch(sbUrl, { headers: { 'Accept': 'application/json' } });
           if (res.ok) {
             const d = await res.json();
-            if (d.results) { data = d; console.log('Supabase OK -', d.results.length, 'results'); }
+            if (d.results) { data = d; setSearchVia('Supabase proxy'); console.log('Supabase OK -', d.results.length, 'results'); }
           } else { console.log('Supabase:', res.status); }
         } catch(e) { console.log('Supabase failed:', e.message); }
       }
+
       if (data && data.results) {
         setResults(data.results);
         setPaging(data.paging || { total:0, offset:0, limit:50 });
@@ -350,9 +372,14 @@ function App() {
   const runDiag = async () => {
     const diag = {};
     try {
-      const r0 = await fetch('https://api.mercadolibre.com/sites/MLA/search?q=casa&limit=1');
-      diag.browser_direct = { status: r0.status, ok: r0.ok };
-      if (r0.ok) { const d = await r0.json(); diag.browser_direct.total = d.paging?.total; }
+      const r0 = await fetch(CF_WORKER + '/?path=sites/MLA/search&q=casa&limit=1');
+      diag.cf_worker = { status: r0.status, ok: r0.ok };
+      if (r0.ok) { const d = await r0.json(); diag.cf_worker.total = d.paging?.total; diag.cf_worker.results = d.results?.length; }
+    } catch(e) { diag.cf_worker = { error: e.message }; }
+    try {
+      const r0b = await fetch('https://api.mercadolibre.com/sites/MLA/search?q=casa&limit=1');
+      diag.browser_direct = { status: r0b.status, ok: r0b.ok };
+      if (r0b.ok) { const d = await r0b.json(); diag.browser_direct.total = d.paging?.total; }
     } catch(e) { diag.browser_direct = { error: e.message }; }
     try {
       const r1 = await fetch('/api/health');
@@ -431,7 +458,7 @@ function App() {
     items.forEach(r => {
       const offer = r.price ? Math.round(r.price*(1-discount/100)) : '';
       rows.push([
-        '"'+(r.title||'').replace(/"/g,'""')+'"', r.price||'', r.currency_id||'', offer,
+        '"'+(r.title||'').replace(/\"/g,'""')+'"', r.price||'', r.currency_id||'', offer,
         r._pm2||'', r._mkt ? r._mkt.diff+'%' : '', r._score,
         r._rent ? r._rent.monthly : '',
         attr(r.attributes,'ROOMS')||'', attr(r.attributes,'BEDROOMS')||'',
@@ -550,7 +577,7 @@ function App() {
       </div>
       <div className="main">
         <div style={{background:'rgba(0,200,83,.08)',border:'1px solid var(--green)',padding:'8px 14px',borderRadius:6,marginBottom:14,fontSize:12,color:'var(--green)',display:'flex',alignItems:'center',gap:8}}>
-          <i className="fas fa-check-circle"></i> Conectado via API
+          <i className="fas fa-check-circle"></i> Conectado via API {searchVia && <span style={{marginLeft:4,opacity:0.8}}>| Datos via: <strong>{searchVia}</strong></span>}
         </div>
         {error && <div className="error-box"><i className="fas fa-exclamation-circle"></i> {error}<div style={{marginTop:8}}><button onClick={runDiag} style={{background:'var(--red)',color:'#fff',border:'none',padding:'6px 12px',borderRadius:4,cursor:'pointer',fontSize:12,marginRight:8}}><i className="fas fa-stethoscope"></i> Diagnostico</button><span style={{fontSize:11,color:'var(--muted)'}}>Revisa la consola del navegador para mas detalles</span></div></div>}
         {paging.total > 0 && <>
@@ -576,12 +603,12 @@ function App() {
             <span className="result-count">{enriched.length} propiedades</span>
           </div>
         </>}
-        {loading && <div className="loading"><div className="spinner"></div>Consultando API de Mercado Libre...</div>}
+        {loading && <div className="loading"><div className="spinner"></div>Consultando API de Mercado Libre via Cloudflare...</div>}
         {!loading && results.length === 0 && !error && (
           <div className="empty">
             <i className="fas fa-city"></i>
             <h2 style={{color:'var(--text)',marginBottom:8}}>MELI Search</h2>
-            <p>Configura los filtros y hace click en Buscar.<br/>Los datos vienen directo de la API de Mercado Libre, sin limites del cliente web.</p>
+            <p>Configura los filtros y hace click en Buscar.<br/>Los datos vienen directo de la API de Mercado Libre via Cloudflare Workers.</p>
             <p style={{marginTop:16,fontSize:12}}><strong>Datapoints extra:</strong> Score de match con tu perfil, USD/m2, comparativa vs mercado, estimacion de renta, y mas.</p>
           </div>
         )}
@@ -599,7 +626,7 @@ function App() {
               return (
                 <div className="card" key={item.id}>
                   <div style={{position:'relative'}}>
-                    <img className="card-img" loading="lazy" src={item.thumbnail?.replace('http:','https:').replace('-I.jpg','-O.jpg')} onError={e=>{e.target.src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180"><rect fill="%231a1a3e" width="400" height="180"/><text fill="%23555" x="200" y="95" text-anchor="middle" font-size="14">Sin imagen</text></svg>';}} />
+                    <img className="card-img" loading="lazy" src={item.thumbnail?.replace('http:','https:').replace('-I.jpg','-O.jpg')} onError={e=>{e.target.src='data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 180\"><rect fill=\"%231a1a3e\" width=\"400\" height=\"180\"/><text fill=\"%23555\" x=\"200\" y=\"95\" text-anchor=\"middle\" font-size=\"14\">Sin imagen</text></svg>';}} />
                     <div className="card-badges">
                       {sb && <span className={'card-badge '+sb.cls}>{sb.label} {item._score}</span>}
                       {item._mkt && item._mkt.diff < -15 && <span className="card-badge cb-cheap">-{Math.abs(item._mkt.diff)}% vs mercado</span>}
